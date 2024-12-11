@@ -1,0 +1,26 @@
+@use "./sass/abstracts/" as a;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    color: a.$color-white;
+    text-decoration: none;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: a.$color-dark-grey;
+    height: 100vh;
+    width: 100vw;
+}
