@@ -4,7 +4,7 @@
     border: 1px solid black;
     border-radius: a.$radius-small;
     padding: 1rem;
-    width: 60vw;
+    width: a.$container-width;
 
     .post_form {
         display: flex;
@@ -12,7 +12,7 @@
         align-items: center;
     }
 
-    p {
+    h1 {
         margin: 0 auto;
         text-align: center;
         font-weight: 600;
