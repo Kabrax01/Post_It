@@ -3,7 +3,7 @@ import styles from "./addPost.module.scss";
 const AddPost = () => {
     return (
         <div className={styles.container}>
-            <p>Add post</p>
+            <h1>Add post</h1>
             <form className={styles.post_form}>
                 <div className={styles.credentials}>
                     <div className={styles.title}>
