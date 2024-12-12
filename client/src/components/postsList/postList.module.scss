@@ -6,7 +6,8 @@
     padding: 1rem;
     width: a.$container-width;
     margin-top: 2rem;
-    height: 54vh;
+    flex-grow: 1;
+    margin-bottom: 1rem;
     overflow-y: scroll;
     scrollbar-width: none;
 
