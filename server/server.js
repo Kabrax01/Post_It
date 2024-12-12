@@ -8,8 +8,14 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.get("/api/", (req, res) => {
-    res.send("server is ready");
+app.get("/api/posts", async (req, res) => {
+    try {
+        const products = await Post.find({});
+        res.status(200).json({ success: true, data: products });
+    } catch (error) {
+        console.error(`Error in fetch request. Message: ${error.message}`);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
 });
 
 app.post("/api/posts", async (req, res) => {
@@ -41,7 +47,7 @@ app.delete("/api/posts/:id", async (req, res) => {
         res.status(200).json({ success: true, message: "Post deleted" });
     } catch (error) {
         console.error(`Error in delete request. Message: ${error.message}`);
-        res.status(500).json({ success: false, message: "Server Error" });
+        res.status(404).json({ success: false, message: "Post not found" });
     }
 });
 
