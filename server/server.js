@@ -2,12 +2,14 @@ import express from "express";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
 import Post from "./models/post.model.js";
+import mongoose from "mongoose";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
+//Get all posts
 app.get("/api/posts", async (req, res) => {
     try {
         const products = await Post.find({});
@@ -18,6 +20,7 @@ app.get("/api/posts", async (req, res) => {
     }
 });
 
+//Add post
 app.post("/api/posts", async (req, res) => {
     const post = req.body;
     console.log(req.body);
@@ -39,6 +42,30 @@ app.post("/api/posts", async (req, res) => {
     }
 });
 
+//Update post
+app.put("/api/posts/:id", async (req, res) => {
+    const { id } = req.params;
+
+    const post = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res
+            .status(404)
+            .json({ success: false, message: "Invalid post id" });
+    }
+
+    try {
+        const updatedProduct = await Post.findByIdAndUpdate(id, post, {
+            new: true,
+        });
+        res.status(200).json({ success: true, data: updatedProduct });
+    } catch (error) {
+        console.error(`Error in put request. Message: ${error.message}`);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
+
+//Delete post
 app.delete("/api/posts/:id", async (req, res) => {
     const { id } = req.params;
 
