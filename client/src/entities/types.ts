@@ -9,3 +9,8 @@ export interface Post {
     content: string;
     createdAt: string;
 }
+
+export interface PostsListProps {
+    posts: Post[];
+    loading: boolean;
+}
