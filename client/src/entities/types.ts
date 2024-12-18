@@ -3,7 +3,7 @@ export interface Posts {
 }
 
 export interface Post {
-    id: string;
+    id: number;
     author: string;
     title: string;
     content: string;
