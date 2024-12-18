@@ -5,13 +5,13 @@ import postRoutes from "./routes/post.route.js";
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
 app.use("/api/posts", postRoutes);
 
-app.listen(port, () => {
+app.listen(PORT, () => {
     connectDB();
-    console.log(`Server is running at http://localhost:${port}/api/`);
+    console.log(`Server is running at http://localhost:$ PORT}/api/`);
 });
