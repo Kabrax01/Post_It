@@ -14,7 +14,13 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     const post = req.body;
 
-    if (!post.author || !post.title || !post.content || !post.createdAt) {
+    if (
+        !post.id ||
+        !post.author ||
+        !post.title ||
+        !post.content ||
+        !post.createdAt
+    ) {
         return res
             .status(400)
             .json({ success: false, message: "Please provide all fields" });
