@@ -32,7 +32,7 @@ function App() {
 
     return (
         <main className={styles.main}>
-            <AddPost />
+            <AddPost setPosts={setPosts} posts={posts} />
 
             <PostsList posts={posts} loading={loading} />
         </main>

@@ -14,3 +14,8 @@ export interface PostsListProps {
     posts: Post[];
     loading: boolean;
 }
+
+export interface AddPostProps {
+    setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
+    posts: Post[];
+}
