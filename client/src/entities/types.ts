@@ -19,3 +19,13 @@ export interface AddPostProps {
     setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
     posts: Post[];
 }
+
+export interface PostData {
+    author: FormDataEntryValue | null;
+    title: FormDataEntryValue | null;
+    content: FormDataEntryValue | null;
+}
+
+export interface ErrorType {
+    [key: string]: string;
+}
