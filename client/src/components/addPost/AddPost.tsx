@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
-import { AddPostProps } from "../../entities/types";
-import formatDate from "../../utils/formatDate";
 import styles from "./addPost.module.scss";
+import { useRef, useState } from "react";
+import { AddPostProps, ErrorType } from "../../entities/types";
+import formatDate from "../../utils/formatDate";
 import validateForm from "../../utils/validateForm";
 
 const AddPost = ({ setPosts, posts }: AddPostProps) => {
@@ -9,10 +9,16 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
     const authorRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLTextAreaElement | null>(null);
     const [sending, setSending] = useState(false);
+    const [validation, setValidation] = useState<null | ErrorType>(null);
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        console.log(e.currentTarget.name);
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setSending(true);
 
         const form = new FormData(e.currentTarget);
         const title = form.get("title");
@@ -22,6 +28,7 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
         const createdAt = formatDate();
 
         const postForm = async () => {
+            setSending(true);
             try {
                 const data = await fetch("http://localhost:5000/api/posts", {
                     method: "POST",
@@ -55,9 +62,13 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
             }
         };
 
-        const errors = validateForm({ title, author, content });
-        console.log(errors);
-        // postForm();
+        // const errors = validateForm({ title, author, content });
+        // if (Object.keys(errors).length === 0) {
+        //     setValidation(null);
+        //     // postForm();
+        // } else {
+        //     setValidation(errors);
+        // }
     };
 
     return (
@@ -67,8 +78,15 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                 <div className={styles.credentials}>
                     <div className={styles.title}>
                         <label htmlFor="title">Title</label>
+                        {validation?.title && (
+                            <span className={styles.error}>
+                                <img src="../../../img/error_4457164.png"></img>
+                                {validation.title}
+                            </span>
+                        )}
                         <input
                             ref={titleRef}
+                            onChange={handleChange}
                             type="text"
                             id="title"
                             name="title"
@@ -76,6 +94,12 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                     </div>
                     <div className={styles.author}>
                         <label htmlFor="author">Author</label>
+                        {validation?.author && (
+                            <span className={styles.error}>
+                                <img src="../../../img/error_4457164.png"></img>
+                                {validation.author}
+                            </span>
+                        )}
                         <input
                             ref={authorRef}
                             type="text"
@@ -86,6 +110,12 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                 </div>
                 <div className={styles.content}>
                     <label htmlFor="content">Post content</label>
+                    {validation?.content && (
+                        <span className={styles.error}>
+                            <img src="../../../img/error_4457164.png"></img>
+                            {validation.content}
+                        </span>
+                    )}
                     <textarea ref={contentRef} id="content" name="content" />
                 </div>
                 <button disabled={sending}>Post it!</button>
