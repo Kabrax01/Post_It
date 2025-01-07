@@ -1,16 +1,23 @@
+import { useRef, useState } from "react";
 import { AddPostProps } from "../../entities/types";
 import formatDate from "../../utils/formatDate";
 import styles from "./addPost.module.scss";
+import validateForm from "../../utils/validateForm";
 
 const AddPost = ({ setPosts, posts }: AddPostProps) => {
+    const titleRef = useRef<HTMLInputElement | null>(null);
+    const authorRef = useRef<HTMLInputElement | null>(null);
+    const contentRef = useRef<HTMLTextAreaElement | null>(null);
+    const [sending, setSending] = useState(false);
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setSending(true);
 
         const form = new FormData(e.currentTarget);
         const title = form.get("title");
         const author = form.get("author");
         const content = form.get("content");
-        console.log(typeof content);
         const id = Date.now();
         const createdAt = formatDate();
 
@@ -34,10 +41,23 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                 setPosts([res.data, ...posts]);
             } catch (error) {
                 console.error((error as Error).message);
+            } finally {
+                if (
+                    authorRef.current &&
+                    titleRef.current &&
+                    contentRef.current
+                ) {
+                    authorRef.current.value = "";
+                    titleRef.current.value = "";
+                    contentRef.current.value = "";
+                }
+                setSending(false);
             }
         };
 
-        postForm();
+        const errors = validateForm({ title, author, content });
+        console.log(errors);
+        // postForm();
     };
 
     return (
@@ -47,18 +67,28 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                 <div className={styles.credentials}>
                     <div className={styles.title}>
                         <label htmlFor="title">Title</label>
-                        <input type="text" id="title" name="title" />
+                        <input
+                            ref={titleRef}
+                            type="text"
+                            id="title"
+                            name="title"
+                        />
                     </div>
                     <div className={styles.author}>
                         <label htmlFor="author">Author</label>
-                        <input type="text" id="author" name="author" />
+                        <input
+                            ref={authorRef}
+                            type="text"
+                            id="author"
+                            name="author"
+                        />
                     </div>
                 </div>
                 <div className={styles.content}>
                     <label htmlFor="content">Post content</label>
-                    <textarea id="content" name="content" />
+                    <textarea ref={contentRef} id="content" name="content" />
                 </div>
-                <button>Post it!</button>
+                <button disabled={sending}>Post it!</button>
             </form>
         </div>
     );
