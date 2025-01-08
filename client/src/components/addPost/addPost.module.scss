@@ -86,7 +86,7 @@
         display: flex;
         align-items: center;
         right: 0;
-        top: -2px;
+        top: -5px;
         background-color: a.$color-red;
         color: a.$color-white;
         padding: 0.2rem 0.6rem;
@@ -96,5 +96,10 @@
             height: 1rem;
             margin-right: 0.5rem;
         }
+    }
+
+    .error + input,
+    .error + textarea {
+        outline: 2px solid red;
     }
 }
