@@ -100,6 +100,6 @@
 
     .error + input,
     .error + textarea {
-        outline: 2px solid red;
+        outline: 2px solid a.$color-red;
     }
 }
