@@ -2,19 +2,30 @@ import styles from "./addPost.module.scss";
 import { useRef, useState } from "react";
 import { AddPostProps, ErrorType } from "../../entities/types";
 import formatDate from "../../utils/formatDate";
-import validateForm from "../../utils/validateForm";
+import { validateForm, validateInput } from "../../utils/validateForm";
 
 const AddPost = ({ setPosts, posts }: AddPostProps) => {
     const titleRef = useRef<HTMLInputElement | null>(null);
     const authorRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLTextAreaElement | null>(null);
     const [sending, setSending] = useState(false);
-    const [validation, setValidation] = useState<null | ErrorType>(null);
+    const [validation, setValidation] = useState<ErrorType>({});
 
-    const handleChange = (
+    const validate = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        console.log(e.currentTarget.name);
+        const target = e.currentTarget;
+        const error = validateInput(e.currentTarget.value);
+        if (error) {
+            setValidation({ ...validation, [target.name]: error });
+        } else {
+            setValidation((current) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { [target.name]: _, ...rest } = current;
+
+                return rest;
+            });
+        }
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -62,13 +73,18 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
             }
         };
 
-        // const errors = validateForm({ title, author, content });
-        // if (Object.keys(errors).length === 0) {
-        //     setValidation(null);
-        //     // postForm();
-        // } else {
-        //     setValidation(errors);
-        // }
+        const formValidationCheck = () => {
+            const errors = validateForm({ title, author, content });
+
+            if (Object.keys(errors).length === 0) {
+                setValidation({});
+                postForm();
+            } else {
+                setValidation(errors);
+            }
+        };
+
+        formValidationCheck();
     };
 
     return (
@@ -86,7 +102,7 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                         )}
                         <input
                             ref={titleRef}
-                            onChange={handleChange}
+                            onChange={validate}
                             type="text"
                             id="title"
                             name="title"
@@ -102,6 +118,7 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                         )}
                         <input
                             ref={authorRef}
+                            onChange={validate}
                             type="text"
                             id="author"
                             name="author"
@@ -116,7 +133,12 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                             {validation.content}
                         </span>
                     )}
-                    <textarea ref={contentRef} id="content" name="content" />
+                    <textarea
+                        ref={contentRef}
+                        onChange={validate}
+                        id="content"
+                        name="content"
+                    />
                 </div>
                 <button disabled={sending}>Post it!</button>
             </form>

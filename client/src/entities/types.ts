@@ -26,6 +26,6 @@ export interface PostData {
     content: FormDataEntryValue | null;
 }
 
-export interface ErrorType {
+export type ErrorType = {
     [key: string]: string;
-}
+};
