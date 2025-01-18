@@ -2,7 +2,7 @@ import { Post } from "../entities/types";
 
 export const fakePosts: Post[] = [
     {
-        id: "12345",
+        id: 12345,
         author: "John Doe",
         title: "Lorem Ipsum",
         content:
@@ -11,7 +11,7 @@ export const fakePosts: Post[] = [
         createdAt: "11.12.2024",
     },
     {
-        id: "22345",
+        id: 22345,
         author: "John Doze",
         title: "Lorem Ipsum Dolor",
         content:
