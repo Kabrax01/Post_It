@@ -16,6 +16,7 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
     ) => {
         const target = e.currentTarget;
         const error = validateInput(e.currentTarget.value);
+
         if (error) {
             setValidation({ ...validation, [target.name]: error });
         } else {

@@ -8,11 +8,16 @@ export interface Post {
     title: string;
     content: string;
     createdAt: string;
+    _id?: string;
 }
 
 export interface PostsListProps {
     posts: Post[];
     loading: boolean;
+}
+
+export interface PostProps {
+    post: Post;
 }
 
 export interface AddPostProps {
