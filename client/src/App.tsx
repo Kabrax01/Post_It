@@ -11,14 +11,13 @@ function App() {
 
     const fetchPosts = async () => {
         setIsLoading(true);
-
         try {
             const res = await fetch("http://localhost:5000/api/posts");
             if (res.status !== 200) throw new Error("Bad server response");
 
             const data = await res.json();
 
-            setPosts(data.data);
+            setPosts(data.data.reverse());
         } catch (error) {
             console.error((error as Error).message);
         } finally {
