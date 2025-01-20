@@ -18,10 +18,11 @@ services:
         environment:
             PORT: $PORT
         ports:
-            - ${PORT}:${PORT}
+            - $PORT:$PORT
         volumes:
             - ./server:/app
             - /app/node_modules
+        command: ["npx", "nodemon", "-L", "src/index.js"]
         restart: always
 #   db:
 #     image: mysql
