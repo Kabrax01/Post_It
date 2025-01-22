@@ -1,10 +1,13 @@
 import styles from "./addPost.module.scss";
 import { useRef, useState } from "react";
-import { AddPostProps, ErrorType } from "../../entities/types";
+import { ErrorType } from "../../entities/types";
 import formatDate from "../../utils/formatDate";
 import { validateForm, validateInput } from "../../utils/validateForm";
+import { usePostStore } from "../../store";
 
-const AddPost = ({ setPosts, posts }: AddPostProps) => {
+const AddPost = () => {
+    const { addPost } = usePostStore();
+
     const titleRef = useRef<HTMLInputElement | null>(null);
     const authorRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLTextAreaElement | null>(null);
@@ -57,7 +60,7 @@ const AddPost = ({ setPosts, posts }: AddPostProps) => {
                 });
                 const res = await data.json();
 
-                setPosts([res.data, ...posts]);
+                addPost(res.data);
             } catch (error) {
                 console.error((error as Error).message);
             } finally {

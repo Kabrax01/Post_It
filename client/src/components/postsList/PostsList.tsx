@@ -1,8 +1,9 @@
 import styles from "./postList.module.scss";
-import { PostsListProps } from "../../entities/types";
 import Post from "../post/Post";
+import { usePostStore } from "../../store";
 
-const PostsList = ({ posts, loading }: PostsListProps) => {
+const PostsList = () => {
+    const { posts, loading } = usePostStore();
     if (loading) return <div>Loading...</div>;
 
     return (
