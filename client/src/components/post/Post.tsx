@@ -6,7 +6,7 @@ const Post = ({ post }: PostProps) => {
 
     const deletePost = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/api/posts/${_id!}`, {
+            await fetch(`http://localhost:5000/api/posts/${_id!}`, {
                 method: "DELETE",
                 body: JSON.stringify({
                     _id,
@@ -15,8 +15,6 @@ const Post = ({ post }: PostProps) => {
                     "Content-type": "application/json; charset=UTF-8",
                 },
             });
-            const data = await res.json();
-            console.log(data);
         } catch (error) {
             console.log(`${(error as Error).message}`);
         }
