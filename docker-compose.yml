@@ -1,5 +1,6 @@
 services:
-    ui:
+    client:
+        container_name: frontend
         build:
             context: ./client
             dockerfile: Dockerfile
@@ -10,70 +11,28 @@ services:
             - /app/node_modules
         restart: always
 
-    api:
+    server:
+        container_name: backend
         build:
             context: ./server
             dockerfile: Dockerfile
-
         environment:
             PORT: $PORT
+            DOCKER_MONGODB_URL: "mongodb://mongodb:27017/PostsDB"
         ports:
             - $PORT:$PORT
         volumes:
             - ./server:/app
             - /app/node_modules
-        command: ["npx", "nodemon", "-L", "src/index.js"]
+        command: ["npx", "nodemon", "-L", "src/server.js"]
         restart: always
-#   db:
-#     image: mysql
-#     restart: always
-#     cap_add:
-#       - SYS_NICE
-#     volumes:
-#       - mysql_data:/var/lib/mysql
-#       - ./api-server/db-setup.sql:/docker-entrypoint-initdb.d/setup.sql
-#     ports:
+        depends_on:
+            - mongodb
 
-#     environment:
-#       <<: *common-variables
-#       MYSQL_ROOT_PASSWORD: admin123
-#       MYSQL_HOST: $MYSQL_HOST
-
-#   api:
-#     build:
-#       context: ./api-server
-#       target: dev
-#     depends_on:
-#       - db
-#     volumes:
-#       - ./api-server:/src
-#       - /src/node_modules
-#     command: npm run start:dev
-#     ports:
-#       - $API_PORT:$API_PORT
-#     environment:
-#       <<: *common-variables
-#       PORT: $API_PORT
-#       NODE_ENV: development
-
-#   adminer:
-#     image: adminer:latest
-#     restart: unless-stopped
-#     ports:
-#       - 8080:8080
-#     depends_on:
-#       - db
-#     environment:
-#       ADMINER_DEFAULT_SERVER: db
-
-#   ui:
-#     stdin_open: true
-#     environment:
-#       - CHOKIDAR_USEPOLLING=true
-#     build:
-#       context: ./blog-ui
-#     volumes:
-#       - ./blog-ui:/src
-#       - /src/node_modules
-#     ports:
-#       - $CLIENT_PORT:$CLIENT_PORT
+    mongodb:
+        container_name: mongoDB
+        image: mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - /app:/data/db
