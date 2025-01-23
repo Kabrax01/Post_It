@@ -44,4 +44,6 @@ export interface PostStore extends InitialState {
     setLoading: (loading: boolean) => void;
     setPosts: (data: Post[]) => void;
     addPost: (post: Post) => void;
+    fetchPosts: () => Promise<void>;
+    deletePost: (mongoId: string, id: number) => Promise<void>;
 }
