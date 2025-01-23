@@ -10,4 +10,9 @@
     margin-bottom: 1rem;
     overflow-y: scroll;
     scrollbar-width: none;
+
+    .posts_container + p {
+        text-align: center;
+        font-size: 2rem;
+    }
 }
