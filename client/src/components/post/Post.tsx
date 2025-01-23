@@ -1,23 +1,13 @@
 import { PostProps } from "../../entities/types";
+import { usePostStore } from "../../store";
 import styles from "./post.module.scss";
 
 const Post = ({ post }: PostProps) => {
-    const { title, author, content, createdAt, _id } = post;
+    const { title, author, content, createdAt, _id: mongoID, id } = post;
+    const deletePost = usePostStore((state) => state.deletePost);
 
-    const deletePost = async () => {
-        try {
-            await fetch(`http://localhost:5000/api/posts/${_id!}`, {
-                method: "DELETE",
-                body: JSON.stringify({
-                    _id,
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            });
-        } catch (error) {
-            console.log(`${(error as Error).message}`);
-        }
+    const handleClick = () => {
+        deletePost(mongoID!, id);
     };
 
     return (
@@ -27,7 +17,7 @@ const Post = ({ post }: PostProps) => {
             <p>{content}</p>
             <p>Posted {createdAt}</p>
             <div className={styles.buttons}>
-                <button onClick={deletePost}>delete</button>
+                <button onClick={handleClick}>delete</button>
                 <button>edit</button>
             </div>
         </article>
