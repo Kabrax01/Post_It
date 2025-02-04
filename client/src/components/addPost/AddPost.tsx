@@ -6,13 +6,13 @@ import { validateForm, validateInput } from "../../utils/validateForm";
 import { usePostStore } from "../../store";
 
 const AddPost = () => {
-    const { addPost } = usePostStore();
+    const addPost = usePostStore((state) => state.addPost);
+    const [sending, setSending] = useState(false);
+    const [validation, setValidation] = useState<ErrorType>({});
 
     const titleRef = useRef<HTMLInputElement | null>(null);
     const authorRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLTextAreaElement | null>(null);
-    const [sending, setSending] = useState(false);
-    const [validation, setValidation] = useState<ErrorType>({});
 
     const validate = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
