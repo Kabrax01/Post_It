@@ -9,11 +9,19 @@
     border-radius: a.$radius-medium;
     padding: 1rem;
     width: a.$container-width;
+    max-height: 50rem;
+    transition: all 0.5s;
+
+    label {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
 
     .post_form {
         display: flex;
         flex-direction: column;
         align-items: center;
+        transition: all 1s;
     }
 
     h1 {
@@ -38,10 +46,6 @@
             margin: 0 1rem;
             width: 50%;
 
-            label {
-                margin-bottom: 0.5rem;
-            }
-
             input {
                 width: 100%;
                 border-radius: a.$radius-small;
@@ -62,10 +66,6 @@
         padding-left: 1rem;
         padding-right: 1rem;
         width: 100%;
-
-        label {
-            margin-bottom: 0.5rem;
-        }
 
         textarea {
             border-radius: a.$radius-small;

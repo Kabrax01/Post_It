@@ -1,5 +1,5 @@
 import styles from "./addPost.module.scss";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ErrorType } from "../../entities/types";
 import formatDate from "../../utils/formatDate";
 import { validateForm, validateInput } from "../../utils/validateForm";
@@ -9,10 +9,19 @@ const AddPost = () => {
     const addPost = usePostStore((state) => state.addPost);
     const [sending, setSending] = useState(false);
     const [validation, setValidation] = useState<ErrorType>({});
+    const [open, setOpen] = useState<boolean>(true);
+    const [size, setSize] = useState<number>(0);
 
     const titleRef = useRef<HTMLInputElement | null>(null);
     const authorRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLTextAreaElement | null>(null);
+    const headingRef = useRef<HTMLHeadingElement | null>(null);
+
+    useEffect(() => {
+        const headingSize = headingRef.current?.getBoundingClientRect();
+
+        if (headingSize) setSize(headingSize.height + 32);
+    }, [open]);
 
     const validate = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -92,9 +101,20 @@ const AddPost = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <h1>Post It!</h1>
-            <form className={styles.post_form} onSubmit={handleSubmit}>
+        <div
+            className={styles.container}
+            style={{
+                maxHeight: open === true ? "50rem" : size,
+            }}>
+            <h1 ref={headingRef} onClick={() => setOpen((prev) => !prev)}>
+                Post It!
+            </h1>
+            <form
+                className={styles.post_form}
+                onSubmit={handleSubmit}
+                style={{
+                    opacity: open === true ? "1" : "0",
+                }}>
                 <div className={styles.credentials}>
                     <div className={styles.title}>
                         <label htmlFor="title">Title</label>

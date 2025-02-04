@@ -2,9 +2,11 @@
 
 .post {
     margin-top: 1rem;
-    background: a.$color-green;
+    background-color: rgb(68, 104, 96);
+    backdrop-filter: blur(10px);
     padding: 0.4rem;
     border-radius: a.$radius-small;
+    filter: drop-shadow(rgb(0, 0, 0) 1rem 1rem 15px);
 
     p:nth-of-type(2) {
         color: a.$color-white;
