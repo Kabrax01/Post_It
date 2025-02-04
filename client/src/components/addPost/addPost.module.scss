@@ -1,11 +1,11 @@
 @use "../../sass/abstracts/" as a;
 
 .container {
-    background-image: url("../../../img/freepik__upload__84523.jpg");
+    background-image: url("../../../img/note-page.webp");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    filter: drop-shadow(black 1rem 1rem 10px);
+    filter: a.$main-drop-filter;
     border-radius: a.$radius-medium;
     padding: 1rem;
     width: a.$container-width;
@@ -21,7 +21,7 @@
         text-align: center;
         font-weight: 600;
         font-size: 1.7rem;
-        color: black;
+        color: a.$color-black;
     }
 
     .credentials {
@@ -47,7 +47,7 @@
                 border-radius: a.$radius-small;
                 border: none;
                 padding: 0.5rem;
-                background-color: rgba(0, 0, 0, 0.5);
+                background-color: a.$background-color-black-light;
                 color: a.$color-white;
                 font-size: 1rem;
             }
@@ -72,7 +72,7 @@
             border: none;
             height: 8rem;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: a.$background-color-black-light;
             color: a.$color-white;
             font-size: 1rem;
         }

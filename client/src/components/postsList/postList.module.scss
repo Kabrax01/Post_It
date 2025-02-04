@@ -10,9 +10,10 @@
     margin-bottom: 1rem;
     overflow-y: scroll;
     scrollbar-width: none;
-    background-image: url("../../../img/freepik__upload__84523.jpg");
+    background-image: url("../../../img/note-page.webp");
     background-position: center;
     background-size: cover;
+    filter: a.$main-drop-filter;
 
     .placeholder {
         text-align: center;
