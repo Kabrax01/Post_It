@@ -1,7 +1,3 @@
-// export interface Posts {
-//     posts: Post[];
-// }
-
 export interface Post {
     id: number;
     author: string;
@@ -19,11 +15,6 @@ export interface PostsListProps {
 export interface PostProps {
     post: Post;
 }
-
-// export interface AddPostProps {
-//     setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
-//     posts: Post[];
-// }
 
 export interface PostData {
     author: FormDataEntryValue | null;

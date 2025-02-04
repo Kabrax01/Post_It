@@ -11,7 +11,7 @@ const PostsList = () => {
     return (
         <div className={styles.posts_container}>
             {!posts.length ? (
-                <p>No posts to display...</p>
+                <p className={styles.placeholder}>No posts to display...</p>
             ) : (
                 posts.map((post) => <Post post={post} key={post.id} />)
             )}

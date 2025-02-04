@@ -2,16 +2,20 @@
 
 .posts_container {
     border: 1px solid a.$color-black;
-    border-radius: a.$radius-small;
+    border-radius: a.$radius-medium;
     padding: 1rem;
     width: a.$container-width;
     margin-top: 2rem;
     flex-grow: 1;
     margin-bottom: 1rem;
     overflow-y: scroll;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    background-image: url("../../../img/note-page.webp");
+    background-position: center;
+    background-size: cover;
+    filter: a.$main-drop-filter;
 
-    .posts_container + p {
+    .placeholder {
         text-align: center;
         font-size: 2rem;
     }
