@@ -9,8 +9,8 @@ const AddPost = () => {
     const addPost = usePostStore((state) => state.addPost);
     const [sending, setSending] = useState(false);
     const [validation, setValidation] = useState<ErrorType>({});
-    const [open, setOpen] = useState<boolean>(true);
-    const [size, setSize] = useState<number>(0);
+    const [isHeadingOpen, setIsHeadingOpen] = useState<boolean>(true);
+    const [headingSize, setHeadingSize] = useState<number>(0);
 
     const titleRef = useRef<HTMLInputElement | null>(null);
     const authorRef = useRef<HTMLInputElement | null>(null);
@@ -20,8 +20,8 @@ const AddPost = () => {
     useEffect(() => {
         const headingSize = headingRef.current?.getBoundingClientRect();
 
-        if (headingSize) setSize(headingSize.height + 32);
-    }, [open]);
+        if (headingSize) setHeadingSize(headingSize.height + 32);
+    }, [isHeadingOpen]);
 
     const validate = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -104,16 +104,18 @@ const AddPost = () => {
         <div
             className={styles.container}
             style={{
-                maxHeight: open === true ? "50rem" : size,
+                maxHeight: isHeadingOpen === true ? "50rem" : headingSize,
             }}>
-            <h1 ref={headingRef} onClick={() => setOpen((prev) => !prev)}>
+            <h1
+                ref={headingRef}
+                onClick={() => setIsHeadingOpen((prev) => !prev)}>
                 Post It!
             </h1>
             <form
                 className={styles.post_form}
                 onSubmit={handleSubmit}
                 style={{
-                    opacity: open === true ? "1" : "0",
+                    opacity: isHeadingOpen === true ? "1" : "0",
                 }}>
                 <div className={styles.credentials}>
                     <div className={styles.title}>

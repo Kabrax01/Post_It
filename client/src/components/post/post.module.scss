@@ -4,7 +4,7 @@
     margin-top: 1rem;
     background-color: rgb(68, 104, 96);
     backdrop-filter: blur(10px);
-    padding: 0.4rem;
+    padding: 0.5rem 1rem;
     border-radius: a.$radius-small;
     filter: drop-shadow(rgb(0, 0, 0) 1rem 1rem 15px);
 
@@ -12,6 +12,31 @@
         color: a.$color-white;
         margin: 0.3rem 0;
         white-space: pre-wrap;
+    }
+
+    p {
+        margin: 1rem 0;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .author {
+        span {
+            font-weight: bold;
+        }
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+
+        .date {
+            text-align: left;
+            text-wrap: nowrap;
+            font-size: 0.8rem;
+        }
     }
 
     .buttons {
