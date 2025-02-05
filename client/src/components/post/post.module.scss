@@ -2,14 +2,15 @@
 
 .post {
     margin-top: 1rem;
-    background-color: rgb(68, 104, 96);
+    background-color: transparent;
+    border: 1px solid black;
     backdrop-filter: blur(10px);
     padding: 0.5rem 1rem;
     border-radius: a.$radius-small;
     filter: drop-shadow(rgb(0, 0, 0) 1rem 1rem 15px);
 
     p:nth-of-type(2) {
-        color: a.$color-white;
+        color: a.$color-black;
         margin: 0.3rem 0;
         white-space: pre-wrap;
     }
@@ -25,6 +26,7 @@
     .author {
         span {
             font-weight: bold;
+            text-decoration: underline;
         }
     }
 
@@ -45,11 +47,13 @@
         justify-content: flex-end;
 
         button {
-            padding: 0.2rem 0.4rem;
+            padding: 0.3rem 0.5rem;
             text-transform: uppercase;
             border: none;
             border-radius: a.$radius-small;
             cursor: pointer;
+            background-color: a.$color-black;
+            color: a.$color-white;
         }
 
         button:nth-of-type(2) {
