@@ -12,13 +12,17 @@ const Post = ({ post }: PostProps) => {
 
     return (
         <article className={styles.post}>
-            <h3>{title}</h3>
-            <p>Author: {author}</p>
-            <p>{content}</p>
-            <p>Posted {createdAt}</p>
-            <div className={styles.buttons}>
-                <button onClick={handleClick}>delete</button>
-                <button>edit</button>
+            <h3 className={styles.title}>{title}</h3>
+            <p className={styles.author}>
+                Author: <span>{author}</span>
+            </p>
+            <p className={styles.content}>{content}</p>
+            <div className={styles.footer}>
+                <p className={styles.date}>Posted {createdAt}</p>
+                <div className={styles.buttons}>
+                    <button onClick={handleClick}>delete</button>
+                    <button>edit</button>
+                </div>
             </div>
         </article>
     );

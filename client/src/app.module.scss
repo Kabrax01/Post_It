@@ -4,7 +4,8 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Roboto, sans-serif;
+    // font-family: Roboto, sans-serif;
+    font-family: Montserrat, Roboto, sans-serif;
 }
 
 ul {
@@ -21,9 +22,6 @@ button:active {
 }
 
 .main {
-    // background-image: url("../img/background_large.webp");
-    // background-size: cover;
-    // background-position: center;
     background-image: linear-gradient(
         rgba(89, 131, 252, 1) 0%,
         rgba(41, 53, 86, 1) 100%
