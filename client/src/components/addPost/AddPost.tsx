@@ -106,11 +106,19 @@ const AddPost = () => {
             style={{
                 maxHeight: isHeadingOpen === true ? "50rem" : headingSize,
             }}>
-            <h1
-                ref={headingRef}
-                onClick={() => setIsHeadingOpen((prev) => !prev)}>
-                Post It!
-            </h1>
+            <div className={styles.heading_container}>
+                <h1 ref={headingRef}>Post It!</h1>
+                <img
+                    src="../../../img/arrow_icon.png"
+                    className={`${styles.arrow} ${
+                        isHeadingOpen ? styles.open : ""
+                    }`}
+                    alt="arrow"
+                    role="button"
+                    aria-label="fold and unfold post form"
+                    onClick={() => setIsHeadingOpen((prev) => !prev)}
+                />
+            </div>
             <form
                 className={styles.post_form}
                 onSubmit={handleSubmit}
@@ -122,7 +130,7 @@ const AddPost = () => {
                         <label htmlFor="title">Title</label>
                         {validation?.title && (
                             <span className={styles.error}>
-                                <img src="../../../img/error_4457164.png"></img>
+                                <img src="../../../img/error_icon.png"></img>
                                 {validation.title}
                             </span>
                         )}
@@ -138,7 +146,7 @@ const AddPost = () => {
                         <label htmlFor="author">Author</label>
                         {validation?.author && (
                             <span className={styles.error}>
-                                <img src="../../../img/error_4457164.png"></img>
+                                <img src="../../../img/error_icon.png"></img>
                                 {validation.author}
                             </span>
                         )}
@@ -155,7 +163,7 @@ const AddPost = () => {
                     <label htmlFor="content">Post content</label>
                     {validation?.content && (
                         <span className={styles.error}>
-                            <img src="../../../img/error_4457164.png"></img>
+                            <img src="../../../img/error_icon.png"></img>
                             {validation.content}
                         </span>
                     )}
