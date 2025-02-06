@@ -1,0 +1,119 @@
+@use "../../sass/abstracts/" as a;
+
+.container {
+    margin-top: 1rem;
+    background-color: transparent;
+    border: 1px solid black;
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: a.$radius-small;
+    filter: drop-shadow(rgb(0, 0, 0) 1rem 1rem 15px);
+
+    label {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .post_form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 1s;
+    }
+
+    h1 {
+        margin: 0 auto;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.7rem;
+        color: a.$color-black;
+    }
+
+    .credentials {
+        width: 100%;
+        margin: 1rem 0;
+        display: flex;
+        justify-content: center;
+
+        .author,
+        .title {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 0 1rem;
+            width: 50%;
+
+            input {
+                width: 100%;
+                border-radius: a.$radius-small;
+                border: none;
+                padding: 0.5rem;
+                background-color: a.$background-color-black-light;
+                color: a.$color-white;
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .content {
+        position: relative;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: 100%;
+
+        textarea {
+            border-radius: a.$radius-small;
+            border: none;
+            height: 8rem;
+            padding: 1rem;
+            background-color: a.$background-color-black-light;
+            color: a.$color-white;
+            font-size: 1rem;
+        }
+
+        .error {
+            right: 1rem;
+        }
+    }
+
+    .buttons_container {
+        display: flex;
+        gap: 1rem;
+
+        button {
+            padding: 0.5rem 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: a.$radius-small;
+            border: none;
+            cursor: pointer;
+            background-color: a.$color-black;
+            color: a.$color-white;
+        }
+    }
+
+    .error {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        right: 0;
+        top: -5px;
+        background-color: a.$color-red;
+        color: a.$color-white;
+        padding: 0.2rem 0.6rem;
+        border-radius: a.$radius-small;
+
+        img {
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+    }
+
+    .error + input,
+    .error + textarea {
+        outline: 2px solid a.$color-red;
+    }
+}

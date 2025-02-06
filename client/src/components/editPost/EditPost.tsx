@@ -1,0 +1,173 @@
+import styles from "./editPost.module.scss";
+import { useState } from "react";
+import { EditPostProps, ErrorType } from "../../entities/types";
+import { validateForm, validateInput } from "../../utils/validateForm";
+import { usePostStore } from "../../store";
+
+const EditPost = ({
+    handleEditClick,
+    post: {
+        title: postTitle,
+        author: postAuthor,
+        content: postContent,
+        _id: mongoID,
+        id,
+    },
+}: EditPostProps) => {
+    const [sending, setSending] = useState(false);
+    const [validation, setValidation] = useState<ErrorType>({});
+    const [title, setTitle] = useState<string>(postTitle);
+    const [author, setAuthor] = useState<string>(postAuthor);
+    const [content, setContent] = useState<string>(postContent);
+    const posts = usePostStore((state) => state.posts);
+    const setPosts = usePostStore((state) => state.setPosts);
+
+    const validate = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        const target = e.currentTarget;
+        const error = validateInput(e.currentTarget.value);
+
+        if (error) {
+            setValidation({ ...validation, [target.name]: error });
+        } else {
+            setValidation((current) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { [target.name]: _, ...rest } = current;
+
+                return rest;
+            });
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const postForm = async () => {
+            setSending(true);
+            try {
+                const data = await fetch(
+                    `http://localhost:5000/api/posts/${mongoID!}`,
+                    {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            title,
+                            author,
+                            content,
+                        }),
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8",
+                        },
+                    }
+                );
+                const res = await data.json();
+
+                if (res.success) {
+                    const updatedPosts = posts.map((post) => {
+                        if (post.id === id) {
+                            return { ...post, title, author, content };
+                        }
+
+                        return post;
+                    });
+
+                    setPosts(updatedPosts);
+                    handleEditClick();
+                }
+            } catch (error) {
+                console.error((error as Error).message);
+            } finally {
+                setSending(false);
+            }
+        };
+
+        const formValidationCheck = () => {
+            const errors = validateForm({ title, author, content });
+
+            if (Object.keys(errors).length === 0) {
+                setValidation({});
+                postForm();
+            } else {
+                setValidation(errors);
+            }
+        };
+
+        formValidationCheck();
+    };
+
+    return (
+        <div className={styles.container}>
+            <form className={styles.post_form} onSubmit={handleSubmit}>
+                <div className={styles.credentials}>
+                    <div className={styles.title}>
+                        <label htmlFor="title">Title</label>
+                        {validation?.title && (
+                            <span className={styles.error}>
+                                <img src="../../../img/error_icon.png"></img>
+                                {validation.title}
+                            </span>
+                        )}
+                        <input
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                                validate(e);
+                            }}
+                            value={title}
+                            type="text"
+                            id="title"
+                            name="title"
+                        />
+                    </div>
+                    <div className={styles.author}>
+                        <label htmlFor="author">Author</label>
+                        {validation?.author && (
+                            <span className={styles.error}>
+                                <img src="../../../img/error_icon.png"></img>
+                                {validation.author}
+                            </span>
+                        )}
+                        <input
+                            onChange={(e) => {
+                                setAuthor(e.target.value);
+                                validate(e);
+                            }}
+                            value={author}
+                            type="text"
+                            id="author"
+                            name="author"
+                        />
+                    </div>
+                </div>
+                <div className={styles.content}>
+                    <label htmlFor="content">Post content</label>
+                    {validation?.content && (
+                        <span className={styles.error}>
+                            <img src="../../../img/error_icon.png"></img>
+                            {validation.content}
+                        </span>
+                    )}
+                    <textarea
+                        onChange={(e) => {
+                            setContent(e.target.value);
+                            validate(e);
+                        }}
+                        value={content}
+                        id="content"
+                        name="content"
+                    />
+                </div>
+                <div className={styles.buttons_container}>
+                    <button disabled={sending}>Edit post</button>
+                    <button
+                        type="button"
+                        disabled={sending}
+                        onClick={handleEditClick}>
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+export default EditPost;
