@@ -52,4 +52,30 @@ export const usePostStore = create<PostStore>((set) => ({
             console.log(`${(error as Error).message}`);
         }
     },
+    // editPost: async (mongoId, title, author, content) => {
+    //     try {
+    //         const res = await fetch(
+    //             `http://localhost:5000/api/posts/${mongoId!}`,
+    //             {
+    //                 method: "DELETE",
+    //                 body: JSON.stringify({
+    //                     id,
+    //                 }),
+    //                 headers: {
+    //                     "Content-type": "application/json; charset=UTF-8",
+    //                 },
+    //             }
+    //         );
+
+    //         const data = await res.json();
+
+    //         if (data.success) {
+    //             // set((state) => ({
+    //             //     posts: state.posts.filter((post) => post.id !== id),
+    //             // }));
+    //         }
+    //     } catch (error) {
+    //         console.log(`${(error as Error).message}`);
+    //     }
+    // },
 }));
