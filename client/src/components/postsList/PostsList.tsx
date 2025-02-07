@@ -6,7 +6,12 @@ const PostsList = () => {
     const posts = usePostStore((state) => state.posts);
     const loading = usePostStore((state) => state.loading);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading)
+        return (
+            <div className={styles.loader_container}>
+                Loading... <span className={styles.loader}></span>{" "}
+            </div>
+        );
 
     return (
         <div className={styles.posts_container}>
