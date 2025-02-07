@@ -93,6 +93,10 @@
             background-color: a.$color-black;
             color: a.$color-white;
         }
+
+        button:disabled {
+            cursor: wait;
+        }
     }
 
     .error {

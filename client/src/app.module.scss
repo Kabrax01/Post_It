@@ -26,6 +26,11 @@ button:active {
     translate: 0 2px;
 }
 
+button:active,
+button:disabled {
+    translate: none;
+}
+
 .main {
     background-image: linear-gradient(
         rgba(89, 131, 252, 1) 0%,
