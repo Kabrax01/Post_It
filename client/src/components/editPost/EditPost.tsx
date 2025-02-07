@@ -14,15 +14,15 @@ const EditPost = ({
         id,
     },
 }: EditPostProps) => {
-    const [sending, setSending] = useState(false);
     const [validation, setValidation] = useState<ErrorType>({});
     const [title, setTitle] = useState<string>(postTitle);
     const [author, setAuthor] = useState<string>(postAuthor);
     const [content, setContent] = useState<string>(postContent);
-    const posts = usePostStore((state) => state.posts);
-    const setPosts = usePostStore((state) => state.setPosts);
 
-    const validate = (
+    const sending = usePostStore((state) => state.sending);
+    const editPost = usePostStore((state) => state.editPost);
+
+    const inputValidation = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const target = e.currentTarget;
@@ -43,50 +43,12 @@ const EditPost = ({
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const postForm = async () => {
-            setSending(true);
-            try {
-                const data = await fetch(
-                    `http://localhost:5000/api/posts/${mongoID!}`,
-                    {
-                        method: "PUT",
-                        body: JSON.stringify({
-                            title,
-                            author,
-                            content,
-                        }),
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8",
-                        },
-                    }
-                );
-                const res = await data.json();
-
-                if (res.success) {
-                    const updatedPosts = posts.map((post) => {
-                        if (post.id === id) {
-                            return { ...post, title, author, content };
-                        }
-
-                        return post;
-                    });
-
-                    setPosts(updatedPosts);
-                    handleEditClick();
-                }
-            } catch (error) {
-                console.error((error as Error).message);
-            } finally {
-                setSending(false);
-            }
-        };
-
         const formValidationCheck = () => {
             const errors = validateForm({ title, author, content });
 
             if (Object.keys(errors).length === 0) {
                 setValidation({});
-                postForm();
+                editPost(mongoID!, title, author, content, id, handleEditClick);
             } else {
                 setValidation(errors);
             }
@@ -110,7 +72,7 @@ const EditPost = ({
                         <input
                             onChange={(e) => {
                                 setTitle(e.target.value);
-                                validate(e);
+                                inputValidation(e);
                             }}
                             value={title}
                             type="text"
@@ -129,7 +91,7 @@ const EditPost = ({
                         <input
                             onChange={(e) => {
                                 setAuthor(e.target.value);
-                                validate(e);
+                                inputValidation(e);
                             }}
                             value={author}
                             type="text"
@@ -149,7 +111,7 @@ const EditPost = ({
                     <textarea
                         onChange={(e) => {
                             setContent(e.target.value);
-                            validate(e);
+                            inputValidation(e);
                         }}
                         value={content}
                         id="content"
