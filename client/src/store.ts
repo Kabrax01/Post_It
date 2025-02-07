@@ -4,11 +4,13 @@ import { InitialState, PostStore } from "./entities/types";
 const initialState: InitialState = {
     posts: [],
     loading: false,
+    sending: false,
 };
 
-export const usePostStore = create<PostStore>((set) => ({
+export const usePostStore = create<PostStore>((set, get) => ({
     ...initialState,
     setLoading: (loading) => set({ loading }),
+    setSending: (sending) => set({ sending }),
     setPosts: (data) => set({ posts: data }),
     addPost: (post) => set((state) => ({ posts: [post, ...state.posts] })),
     fetchPosts: async () => {
@@ -52,30 +54,41 @@ export const usePostStore = create<PostStore>((set) => ({
             console.log(`${(error as Error).message}`);
         }
     },
-    // editPost: async (mongoId, title, author, content) => {
-    //     try {
-    //         const res = await fetch(
-    //             `http://localhost:5000/api/posts/${mongoId!}`,
-    //             {
-    //                 method: "DELETE",
-    //                 body: JSON.stringify({
-    //                     id,
-    //                 }),
-    //                 headers: {
-    //                     "Content-type": "application/json; charset=UTF-8",
-    //                 },
-    //             }
-    //         );
+    editPost: async (mongoID, title, author, content, id, handleEditClick) => {
+        set({ sending: true });
+        try {
+            const data = await fetch(
+                `http://localhost:5000/api/posts/${mongoID!}`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        title,
+                        author,
+                        content,
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8",
+                    },
+                }
+            );
+            const res = await data.json();
 
-    //         const data = await res.json();
+            if (res.success) {
+                const updatedPosts = get().posts.map((post) => {
+                    if (post.id === id) {
+                        return { ...post, title, author, content };
+                    }
 
-    //         if (data.success) {
-    //             // set((state) => ({
-    //             //     posts: state.posts.filter((post) => post.id !== id),
-    //             // }));
-    //         }
-    //     } catch (error) {
-    //         console.log(`${(error as Error).message}`);
-    //     }
-    // },
+                    return post;
+                });
+
+                set({ posts: updatedPosts });
+                handleEditClick();
+            }
+        } catch (error) {
+            console.error((error as Error).message);
+        } finally {
+            set({ sending: false });
+        }
+    },
 }));

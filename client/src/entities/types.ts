@@ -26,21 +26,29 @@ export type ErrorType = {
     [key: string]: string;
 };
 
-export interface InitialState {
-    posts: Post[] | [];
-    loading: boolean;
-}
-
 export interface EditPostProps {
     handleEditClick: () => void;
     post: Post;
 }
+export interface InitialState {
+    posts: Post[] | [];
+    loading: boolean;
+    sending: boolean;
+}
 
 export interface PostStore extends InitialState {
     setLoading: (loading: boolean) => void;
+    setSending: (sending: boolean) => void;
     setPosts: (data: Post[]) => void;
     addPost: (post: Post) => void;
     fetchPosts: () => Promise<void>;
     deletePost: (mongoId: string, id: number) => Promise<void>;
-    // editPost: (mongoId: string, id: number) => Promise<void>;
+    editPost: (
+        mongoId: string,
+        title: string,
+        author: string,
+        content: string,
+        id: number,
+        handleEditClick: () => void
+    ) => Promise<void>;
 }
