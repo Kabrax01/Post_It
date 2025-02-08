@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { PostProps } from "../../entities/types";
-import { usePostStore } from "../../store";
 import styles from "./post.module.scss";
 import EditPost from "../editPost/EditPost";
+import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const Post = ({ post }: PostProps) => {
     const [editMode, setEditMode] = useState<boolean>(false);
     const { title, author, content, createdAt, _id: mongoID, id } = post;
-    const deletePost = usePostStore((state) => state.deletePost);
+
+    const deletePost = useStoreSubscribe("deletePost");
 
     const handleDeleteClick = () => {
         deletePost(mongoID!, id);

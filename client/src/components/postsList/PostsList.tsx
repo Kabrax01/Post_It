@@ -1,10 +1,10 @@
 import styles from "./postList.module.scss";
 import Post from "../post/Post";
-import { usePostStore } from "../../store";
+import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const PostsList = () => {
-    const posts = usePostStore((state) => state.posts);
-    const loading = usePostStore((state) => state.loading);
+    const posts = useStoreSubscribe("posts");
+    const loading = useStoreSubscribe("loading");
 
     if (loading)
         return (

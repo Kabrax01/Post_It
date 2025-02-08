@@ -3,16 +3,16 @@ import { useEffect, useRef, useState } from "react";
 import { ErrorType, Post } from "../../entities/types";
 import formatDate from "../../utils/formatDate";
 import { validateForm, validateInput } from "../../utils/validateForm";
-import { usePostStore } from "../../store";
+import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const AddPost = () => {
     const [validation, setValidation] = useState<ErrorType>({});
     const [isHeadingOpen, setIsHeadingOpen] = useState<boolean>(true);
     const [headingSize, setHeadingSize] = useState<number>(0);
 
-    const addPost = usePostStore((state) => state.addPost);
-    const sending = usePostStore((state) => state.sending);
-    const success = usePostStore((state) => state.success);
+    const addPost = useStoreSubscribe("addPost");
+    const sending = useStoreSubscribe("sending");
+    const success = useStoreSubscribe("success");
 
     const headingRef = useRef<HTMLHeadingElement | null>(null);
     const formRef = useRef<HTMLFormElement | null>(null);
