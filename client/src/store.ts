@@ -5,14 +5,12 @@ const initialState: InitialState = {
     posts: [],
     loading: false,
     sending: false,
+    success: { status: false, message: "" },
+    error: { status: false, message: "", error: "" },
 };
 
 export const usePostStore = create<PostStore>((set, get) => ({
     ...initialState,
-    setLoading: (loading) => set({ loading }),
-    setSending: (sending) => set({ sending }),
-    setPosts: (data) => set({ posts: data }),
-    addPost: (post) => set((state) => ({ posts: [post, ...state.posts] })),
     fetchPosts: async () => {
         set({ loading: true });
         try {
@@ -26,6 +24,36 @@ export const usePostStore = create<PostStore>((set, get) => ({
             console.error((error as Error).message);
         } finally {
             set({ loading: false });
+        }
+    },
+    addPost: async (postData) => {
+        set({ sending: true });
+        try {
+            const data = await fetch("http://localhost:5000/api/posts", {
+                method: "POST",
+                body: JSON.stringify(postData),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            });
+            const res = await data.json();
+
+            if (res.success)
+                set((state) => ({
+                    posts: [res.data, ...state.posts],
+                    success: { status: true, message: "Post added !" },
+                }));
+        } catch (error) {
+            console.error((error as Error).message);
+            set({
+                error: {
+                    status: true,
+                    message: `Something went wrong...`,
+                    error: (error as Error).message,
+                },
+            });
+        } finally {
+            set({ sending: false });
         }
     },
     deletePost: async (mongoId, id) => {

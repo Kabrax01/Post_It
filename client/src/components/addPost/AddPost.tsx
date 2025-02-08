@@ -1,21 +1,21 @@
 import styles from "./addPost.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { ErrorType } from "../../entities/types";
+import { ErrorType, Post } from "../../entities/types";
 import formatDate from "../../utils/formatDate";
 import { validateForm, validateInput } from "../../utils/validateForm";
-import { usePostStore } from "../../store";
+import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const AddPost = () => {
-    const addPost = usePostStore((state) => state.addPost);
-    const [sending, setSending] = useState(false);
     const [validation, setValidation] = useState<ErrorType>({});
     const [isHeadingOpen, setIsHeadingOpen] = useState<boolean>(true);
     const [headingSize, setHeadingSize] = useState<number>(0);
 
-    const titleRef = useRef<HTMLInputElement | null>(null);
-    const authorRef = useRef<HTMLInputElement | null>(null);
-    const contentRef = useRef<HTMLTextAreaElement | null>(null);
+    const addPost = useStoreSubscribe("addPost");
+    const sending = useStoreSubscribe("sending");
+    const success = useStoreSubscribe("success");
+
     const headingRef = useRef<HTMLHeadingElement | null>(null);
+    const formRef = useRef<HTMLFormElement | null>(null);
 
     useEffect(() => {
         const headingSize = headingRef.current?.getBoundingClientRect();
@@ -23,7 +23,7 @@ const AddPost = () => {
         if (headingSize) setHeadingSize(headingSize.height + 32);
     }, [isHeadingOpen]);
 
-    const validate = (
+    const inputValidation = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const target = e.currentTarget;
@@ -51,47 +51,19 @@ const AddPost = () => {
         const id = Date.now();
         const createdAt = formatDate();
 
-        const postForm = async () => {
-            setSending(true);
-            try {
-                const data = await fetch("http://localhost:5000/api/posts", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        title,
-                        author,
-                        content,
-                        id,
-                        createdAt,
-                    }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8",
-                    },
-                });
-                const res = await data.json();
-
-                addPost(res.data);
-            } catch (error) {
-                console.error((error as Error).message);
-            } finally {
-                if (
-                    authorRef.current &&
-                    titleRef.current &&
-                    contentRef.current
-                ) {
-                    authorRef.current.value = "";
-                    titleRef.current.value = "";
-                    contentRef.current.value = "";
-                }
-                setSending(false);
-            }
-        };
+        const postData = { title, author, content, id, createdAt };
 
         const formValidationCheck = () => {
             const errors = validateForm({ title, author, content });
 
             if (Object.keys(errors).length === 0) {
                 setValidation({});
-                postForm();
+                (async () => {
+                    await addPost(postData as Post);
+                    if (success) {
+                        formRef.current?.reset();
+                    }
+                })();
             } else {
                 setValidation(errors);
             }
@@ -115,11 +87,12 @@ const AddPost = () => {
                     }`}
                     alt="arrow"
                     role="button"
-                    aria-label="fold and unfold post form"
+                    aria-label="expand and collapse post form"
                     onClick={() => setIsHeadingOpen((prev) => !prev)}
                 />
             </div>
             <form
+                ref={formRef}
                 className={styles.post_form}
                 onSubmit={handleSubmit}
                 style={{
@@ -135,8 +108,7 @@ const AddPost = () => {
                             </span>
                         )}
                         <input
-                            ref={titleRef}
-                            onChange={validate}
+                            onChange={inputValidation}
                             type="text"
                             id="title"
                             name="title"
@@ -151,8 +123,7 @@ const AddPost = () => {
                             </span>
                         )}
                         <input
-                            ref={authorRef}
-                            onChange={validate}
+                            onChange={inputValidation}
                             type="text"
                             id="author"
                             name="author"
@@ -168,8 +139,7 @@ const AddPost = () => {
                         </span>
                     )}
                     <textarea
-                        ref={contentRef}
-                        onChange={validate}
+                        onChange={inputValidation}
                         id="content"
                         name="content"
                     />

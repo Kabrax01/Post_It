@@ -1,23 +1,29 @@
 @use "../../sass/abstracts/" as a;
 
 .posts_container {
+    overflow: hidden;
     border: 1px solid a.$color-black;
     border-radius: a.$radius-medium;
-    padding: 1rem;
+    flex-grow: 1;
     width: a.$container-width;
     margin-top: 2rem;
-    flex-grow: 1;
     margin-bottom: 1rem;
-    overflow-y: scroll;
-    scrollbar-width: thin;
     background-image: url("../../../img/note-page.webp");
     background-position: center;
     background-size: cover;
     filter: a.$main-drop-filter;
 
-    .placeholder {
-        text-align: center;
-        font-size: 2rem;
+    .posts_list {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        padding: 1rem;
+
+        .placeholder {
+            text-align: center;
+            font-size: 2rem;
+        }
     }
 }
 

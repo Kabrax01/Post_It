@@ -2,7 +2,7 @@ import styles from "./editPost.module.scss";
 import { useState } from "react";
 import { EditPostProps, ErrorType } from "../../entities/types";
 import { validateForm, validateInput } from "../../utils/validateForm";
-import { usePostStore } from "../../store";
+import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const EditPost = ({
     handleEditClick,
@@ -19,8 +19,8 @@ const EditPost = ({
     const [author, setAuthor] = useState<string>(postAuthor);
     const [content, setContent] = useState<string>(postContent);
 
-    const sending = usePostStore((state) => state.sending);
-    const editPost = usePostStore((state) => state.editPost);
+    const sending = useStoreSubscribe("sending");
+    const editPost = useStoreSubscribe("editPost");
 
     const inputValidation = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

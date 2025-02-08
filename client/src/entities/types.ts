@@ -34,14 +34,13 @@ export interface InitialState {
     posts: Post[] | [];
     loading: boolean;
     sending: boolean;
+    success: { status: boolean; message: string };
+    error: { status: boolean; message: string; error: string };
 }
 
 export interface PostStore extends InitialState {
-    setLoading: (loading: boolean) => void;
-    setSending: (sending: boolean) => void;
-    setPosts: (data: Post[]) => void;
-    addPost: (post: Post) => void;
     fetchPosts: () => Promise<void>;
+    addPost: (postData: Post) => Promise<void>;
     deletePost: (mongoId: string, id: number) => Promise<void>;
     editPost: (
         mongoId: string,

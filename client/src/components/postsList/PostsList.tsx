@@ -1,10 +1,10 @@
 import styles from "./postList.module.scss";
 import Post from "../post/Post";
-import { usePostStore } from "../../store";
+import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const PostsList = () => {
-    const posts = usePostStore((state) => state.posts);
-    const loading = usePostStore((state) => state.loading);
+    const posts = useStoreSubscribe("posts");
+    const loading = useStoreSubscribe("loading");
 
     if (loading)
         return (
@@ -15,11 +15,13 @@ const PostsList = () => {
 
     return (
         <div className={styles.posts_container}>
-            {!posts.length ? (
-                <p className={styles.placeholder}>No posts to display...</p>
-            ) : (
-                posts.map((post) => <Post post={post} key={post.id} />)
-            )}
+            <ul className={styles.posts_list}>
+                {!posts.length ? (
+                    <p className={styles.placeholder}>No posts to display...</p>
+                ) : (
+                    posts.map((post) => <Post post={post} key={post.id} />)
+                )}
+            </ul>
         </div>
     );
 };
