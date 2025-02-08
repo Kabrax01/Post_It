@@ -15,11 +15,13 @@ const PostsList = () => {
 
     return (
         <div className={styles.posts_container}>
-            {!posts.length ? (
-                <p className={styles.placeholder}>No posts to display...</p>
-            ) : (
-                posts.map((post) => <Post post={post} key={post.id} />)
-            )}
+            <ul className={styles.posts_list}>
+                {!posts.length ? (
+                    <p className={styles.placeholder}>No posts to display...</p>
+                ) : (
+                    posts.map((post) => <Post post={post} key={post.id} />)
+                )}
+            </ul>
         </div>
     );
 };

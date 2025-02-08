@@ -12,8 +12,10 @@ const AddPost = () => {
 
     const addPost = usePostStore((state) => state.addPost);
     const sending = usePostStore((state) => state.sending);
+    const success = usePostStore((state) => state.success);
 
     const headingRef = useRef<HTMLHeadingElement | null>(null);
+    const formRef = useRef<HTMLFormElement | null>(null);
 
     useEffect(() => {
         const headingSize = headingRef.current?.getBoundingClientRect();
@@ -56,7 +58,12 @@ const AddPost = () => {
 
             if (Object.keys(errors).length === 0) {
                 setValidation({});
-                addPost(postData as Post);
+                (async () => {
+                    await addPost(postData as Post);
+                    if (success) {
+                        formRef.current?.reset();
+                    }
+                })();
             } else {
                 setValidation(errors);
             }
@@ -85,6 +92,7 @@ const AddPost = () => {
                 />
             </div>
             <form
+                ref={formRef}
                 className={styles.post_form}
                 onSubmit={handleSubmit}
                 style={{
