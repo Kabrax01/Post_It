@@ -5,12 +5,13 @@ const initialState: InitialState = {
     posts: [],
     loading: false,
     sending: false,
-    success: { status: false, message: "" },
-    error: { status: false, message: "", error: "" },
+    toast: { type: "", status: true, message: "Post added !", error: "" },
 };
 
 export const usePostStore = create<PostStore>((set, get) => ({
     ...initialState,
+    removeToast: () =>
+        set((state) => ({ toast: { ...state.toast, status: false } })),
     fetchPosts: async () => {
         set({ loading: true });
         try {
@@ -38,15 +39,22 @@ export const usePostStore = create<PostStore>((set, get) => ({
             });
             const res = await data.json();
 
-            if (res.success)
+            if (res.success) {
                 set((state) => ({
                     posts: [res.data, ...state.posts],
-                    success: { status: true, message: "Post added !" },
+                    toast: {
+                        type: "success",
+                        status: true,
+                        message: "Post added !",
+                    },
                 }));
+                return "success";
+            }
         } catch (error) {
             console.error((error as Error).message);
             set({
-                error: {
+                toast: {
+                    type: "error",
                     status: true,
                     message: `Something went wrong...`,
                     error: (error as Error).message,
@@ -76,10 +84,23 @@ export const usePostStore = create<PostStore>((set, get) => ({
             if (data.success) {
                 set((state) => ({
                     posts: state.posts.filter((post) => post.id !== id),
+                    toast: {
+                        type: "success",
+                        status: true,
+                        message: "Post removed !",
+                    },
                 }));
             }
         } catch (error) {
             console.log(`${(error as Error).message}`);
+            set({
+                toast: {
+                    type: "error",
+                    status: true,
+                    message: `Something went wrong...`,
+                    error: (error as Error).message,
+                },
+            });
         }
     },
     editPost: async (mongoID, title, author, content, id, handleEditClick) => {
