@@ -1,4 +1,3 @@
-// import { NotificationProps } from "../../entities/types";
 import { useEffect, useState } from "react";
 import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 import styles from "./notification.module.scss";
@@ -31,9 +30,12 @@ const Notification = () => {
         <div
             className={`${styles.container} ${toast.status ? styles.show : ""}`}
             style={{ boxShadow: toast.error ? "0 0 10px 10px red" : "" }}>
-            <p className={styles.message}>
-                {toast.message} {toast.error ? "😥" : "🥳"}
-            </p>
+            <div className={styles.message}>
+                <p>
+                    {toast.message} {toast.error ? "😥" : "🥳"}
+                </p>
+                <span onClick={removeToast}>X</span>
+            </div>
             {toast.error && <p className={styles.error}>{toast.error}</p>}
             <progress value={progressValue} max={100}></progress>
         </div>
