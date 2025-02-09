@@ -30,17 +30,28 @@ export interface EditPostProps {
     handleEditClick: () => void;
     post: Post;
 }
+
+type NotificationType = {
+    type: string;
+    status: boolean;
+    message: string;
+    error?: string;
+};
+
+export interface NotificationProps {
+    data: NotificationType;
+}
 export interface InitialState {
     posts: Post[] | [];
     loading: boolean;
     sending: boolean;
-    success: { status: boolean; message: string };
-    error: { status: boolean; message: string; error: string };
+    toast: NotificationType;
 }
 
 export interface PostStore extends InitialState {
+    removeToast: () => void;
     fetchPosts: () => Promise<void>;
-    addPost: (postData: Post) => Promise<void>;
+    addPost: (postData: Post) => Promise<string | void>;
     deletePost: (mongoId: string, id: number) => Promise<void>;
     editPost: (
         mongoId: string,

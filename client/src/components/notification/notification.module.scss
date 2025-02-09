@@ -1,0 +1,64 @@
+@use "../../sass/abstracts/" as a;
+
+.container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px 10px greenyellow;
+    bottom: 2rem;
+    padding: 1rem 1rem 0 1rem;
+    border-radius: a.$radius-small;
+    right: -60vw;
+    transition: all 0.5s;
+
+    &.show {
+        right: 50vw;
+        transform: translateX(50%);
+    }
+
+    .message {
+        display: flex;
+        font-size: 1rem;
+        padding-top: 0.2rem;
+
+        p {
+            margin-right: 4rem;
+        }
+
+        span {
+            transform: translateY(-1rem);
+            cursor: pointer;
+        }
+    }
+
+    progress {
+        margin-top: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    progress[value] {
+        -webkit-appearance: none;
+        appearance: none;
+
+        height: 0.3rem;
+        border-radius: 20px;
+        width: 100%;
+    }
+
+    progress[value]::-webkit-progress-value {
+        background-image: -webkit-linear-gradient(
+                -45deg,
+                transparent 33%,
+                rgba(0, 0, 0, 0.1) 33%,
+                rgba(0, 0, 0, 0.1) 66%,
+                transparent 66%
+            ),
+            -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)),
+            -webkit-linear-gradient(left, #09c, #f44);
+
+        border-radius: 2px;
+        background-size: 35px 20px, 100% 100%, 100% 100%;
+    }
+}

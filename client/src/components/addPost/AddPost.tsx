@@ -12,7 +12,6 @@ const AddPost = () => {
 
     const addPost = useStoreSubscribe("addPost");
     const sending = useStoreSubscribe("sending");
-    const success = useStoreSubscribe("success");
 
     const headingRef = useRef<HTMLHeadingElement | null>(null);
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -59,8 +58,8 @@ const AddPost = () => {
             if (Object.keys(errors).length === 0) {
                 setValidation({});
                 (async () => {
-                    await addPost(postData as Post);
-                    if (success) {
+                    const status = await addPost(postData as Post);
+                    if (status === "success") {
                         formRef.current?.reset();
                     }
                 })();
