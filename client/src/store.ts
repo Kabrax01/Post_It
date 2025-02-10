@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { InitialState, PostStore } from "./entities/types";
-import { getErrorMessage } from "./utils/getErrorMessage";
+import { handleError } from "./utils/handleError";
 
 const initialState: InitialState = {
     posts: [],
@@ -25,9 +25,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
             set({ posts: data.data.reverse() });
         } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            console.error(errorMessage);
-            get().showToast(true, "Failed downloading data", errorMessage);
+            handleError(error, "Failed downloading data...");
         } finally {
             set({ loading: false });
         }
@@ -53,9 +51,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
                 return "success";
             }
         } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            console.error(errorMessage);
-            get().showToast(true, "Failed adding post...", errorMessage);
+            handleError(error, "Failed adding post...");
         } finally {
             set({ sending: false });
         }
@@ -87,9 +83,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
                 }));
             }
         } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            console.error(errorMessage);
-            get().showToast(true, "Failed deleting post...", errorMessage);
+            handleError(error, "Failed deleting post...");
         }
     },
     editPost: async (mongoID, title, author, content, id, handleEditClick) => {
@@ -130,9 +124,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
                 handleEditClick();
             }
         } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            console.error(errorMessage);
-            get().showToast(true, "Failed editing post...", errorMessage);
+            handleError(error, "Post edit failed...");
         } finally {
             set({ sending: false });
         }
