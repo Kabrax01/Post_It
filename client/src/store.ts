@@ -1,17 +1,20 @@
 import { create } from "zustand";
 import { InitialState, PostStore } from "./entities/types";
+import { handleError } from "./utils/handleError";
 
 const initialState: InitialState = {
     posts: [],
     loading: false,
     sending: false,
-    toast: { type: "", status: true, message: "Post added !", error: "" },
+    toast: { status: false, message: "", error: "" },
 };
 
 export const usePostStore = create<PostStore>((set, get) => ({
     ...initialState,
     removeToast: () =>
         set((state) => ({ toast: { ...state.toast, status: false } })),
+    showToast: (status, message, error) =>
+        set({ toast: { status, message, error } }),
     fetchPosts: async () => {
         set({ loading: true });
         try {
@@ -22,7 +25,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
             set({ posts: data.data.reverse() });
         } catch (error) {
-            console.error((error as Error).message);
+            handleError(error, "Failed downloading data...");
         } finally {
             set({ loading: false });
         }
@@ -42,24 +45,13 @@ export const usePostStore = create<PostStore>((set, get) => ({
             if (res.success) {
                 set((state) => ({
                     posts: [res.data, ...state.posts],
-                    toast: {
-                        type: "success",
-                        status: true,
-                        message: "Post added !",
-                    },
                 }));
+                get().showToast(true, "Post added !");
+
                 return "success";
             }
         } catch (error) {
-            console.error((error as Error).message);
-            set({
-                toast: {
-                    type: "error",
-                    status: true,
-                    message: `Something went wrong...`,
-                    error: (error as Error).message,
-                },
-            });
+            handleError(error, "Failed adding post...");
         } finally {
             set({ sending: false });
         }
@@ -85,22 +77,13 @@ export const usePostStore = create<PostStore>((set, get) => ({
                 set((state) => ({
                     posts: state.posts.filter((post) => post.id !== id),
                     toast: {
-                        type: "success",
                         status: true,
                         message: "Post removed !",
                     },
                 }));
             }
         } catch (error) {
-            console.log(`${(error as Error).message}`);
-            set({
-                toast: {
-                    type: "error",
-                    status: true,
-                    message: `Something went wrong...`,
-                    error: (error as Error).message,
-                },
-            });
+            handleError(error, "Failed deleting post...");
         }
     },
     editPost: async (mongoID, title, author, content, id, handleEditClick) => {
@@ -131,11 +114,17 @@ export const usePostStore = create<PostStore>((set, get) => ({
                     return post;
                 });
 
-                set({ posts: updatedPosts });
+                set(() => ({
+                    posts: updatedPosts,
+                    toast: {
+                        status: true,
+                        message: "Post edited !",
+                    },
+                }));
                 handleEditClick();
             }
         } catch (error) {
-            console.error((error as Error).message);
+            handleError(error, "Post edit failed...");
         } finally {
             set({ sending: false });
         }

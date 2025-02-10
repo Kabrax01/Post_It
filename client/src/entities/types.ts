@@ -32,7 +32,6 @@ export interface EditPostProps {
 }
 
 type NotificationType = {
-    type: string;
     status: boolean;
     message: string;
     error?: string;
@@ -50,6 +49,7 @@ export interface InitialState {
 
 export interface PostStore extends InitialState {
     removeToast: () => void;
+    showToast: (status: boolean, message: string, error?: string) => void;
     fetchPosts: () => Promise<void>;
     addPost: (postData: Post) => Promise<string | void>;
     deletePost: (mongoId: string, id: number) => Promise<void>;
