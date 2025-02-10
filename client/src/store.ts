@@ -1,17 +1,20 @@
 import { create } from "zustand";
 import { InitialState, PostStore } from "./entities/types";
+import { getErrorMessage } from "./utils/getErrorMessage";
 
 const initialState: InitialState = {
     posts: [],
     loading: false,
     sending: false,
-    toast: { type: "", status: true, message: "Post added !", error: "" },
+    toast: { status: false, message: "", error: "" },
 };
 
 export const usePostStore = create<PostStore>((set, get) => ({
     ...initialState,
     removeToast: () =>
         set((state) => ({ toast: { ...state.toast, status: false } })),
+    showToast: (status, message, error) =>
+        set({ toast: { status, message, error } }),
     fetchPosts: async () => {
         set({ loading: true });
         try {
@@ -22,7 +25,9 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
             set({ posts: data.data.reverse() });
         } catch (error) {
-            console.error((error as Error).message);
+            const errorMessage = getErrorMessage(error);
+            console.error(errorMessage);
+            get().showToast(true, "Failed downloading data", errorMessage);
         } finally {
             set({ loading: false });
         }
@@ -42,24 +47,15 @@ export const usePostStore = create<PostStore>((set, get) => ({
             if (res.success) {
                 set((state) => ({
                     posts: [res.data, ...state.posts],
-                    toast: {
-                        type: "success",
-                        status: true,
-                        message: "Post added !",
-                    },
                 }));
+                get().showToast(true, "Post added !");
+
                 return "success";
             }
         } catch (error) {
-            console.error((error as Error).message);
-            set({
-                toast: {
-                    type: "error",
-                    status: true,
-                    message: `Something went wrong...`,
-                    error: (error as Error).message,
-                },
-            });
+            const errorMessage = getErrorMessage(error);
+            console.error(errorMessage);
+            get().showToast(true, "Failed adding post...", errorMessage);
         } finally {
             set({ sending: false });
         }
@@ -85,22 +81,15 @@ export const usePostStore = create<PostStore>((set, get) => ({
                 set((state) => ({
                     posts: state.posts.filter((post) => post.id !== id),
                     toast: {
-                        type: "success",
                         status: true,
                         message: "Post removed !",
                     },
                 }));
             }
         } catch (error) {
-            console.log(`${(error as Error).message}`);
-            set({
-                toast: {
-                    type: "error",
-                    status: true,
-                    message: `Something went wrong...`,
-                    error: (error as Error).message,
-                },
-            });
+            const errorMessage = getErrorMessage(error);
+            console.error(errorMessage);
+            get().showToast(true, "Failed deleting post...", errorMessage);
         }
     },
     editPost: async (mongoID, title, author, content, id, handleEditClick) => {
@@ -131,11 +120,19 @@ export const usePostStore = create<PostStore>((set, get) => ({
                     return post;
                 });
 
-                set({ posts: updatedPosts });
+                set(() => ({
+                    posts: updatedPosts,
+                    toast: {
+                        status: true,
+                        message: "Post edited !",
+                    },
+                }));
                 handleEditClick();
             }
         } catch (error) {
-            console.error((error as Error).message);
+            const errorMessage = getErrorMessage(error);
+            console.error(errorMessage);
+            get().showToast(true, "Failed editing post...", errorMessage);
         } finally {
             set({ sending: false });
         }
