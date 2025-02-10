@@ -13,7 +13,7 @@ const Notification = () => {
         setProgressValue(1);
 
         const progressInterval = setInterval(() => {
-            setProgressValue((prev) => prev + 1);
+            setProgressValue((prev) => ++prev);
         }, DELAY / 100);
 
         const delay = setTimeout(() => {
