@@ -1,0 +1,14 @@
+@use "../../sass/abstracts/" as a;
+
+.container {
+    background-color: red;
+    color: a.$color-black;
+
+    h3 {
+    }
+
+    .buttons_container {
+        button {
+        }
+    }
+}

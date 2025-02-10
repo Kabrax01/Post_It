@@ -45,11 +45,21 @@ export interface InitialState {
     loading: boolean;
     sending: boolean;
     toast: NotificationType;
+    showConfirmation: boolean;
+    confirmationType: string;
+    confirmationCallback:
+        | null
+        | ((mongoId: string, id: number) => Promise<void>);
 }
 
 export interface PostStore extends InitialState {
     removeToast: () => void;
     showToast: (status: boolean, message: string, error?: string) => void;
+    openConfirmationModal: (
+        callback: Promise<void>,
+        confirmationType: string
+    ) => void;
+    closeConfirmationModal: () => void;
     fetchPosts: () => Promise<void>;
     addPost: (postData: Post) => Promise<string | void>;
     deletePost: (mongoId: string, id: number) => Promise<void>;

@@ -7,6 +7,9 @@ const initialState: InitialState = {
     loading: false,
     sending: false,
     toast: { status: false, message: "", error: "" },
+    showConfirmation: false,
+    confirmationType: "",
+    confirmationCallback: null,
 };
 
 export const usePostStore = create<PostStore>((set, get) => ({
@@ -15,6 +18,18 @@ export const usePostStore = create<PostStore>((set, get) => ({
         set((state) => ({ toast: { ...state.toast, status: false } })),
     showToast: (status, message, error) =>
         set({ toast: { status, message, error } }),
+    openConfirmationModal: (callback, confirmationType) =>
+        set(() => ({
+            showConfirmation: true,
+            confirmationType: confirmationType,
+            confirmationCallback: callback,
+        })),
+    closeConfirmationModal: () =>
+        set(() => ({
+            showConfirmation: false,
+            confirmationType: "",
+            confirmationCallback: null,
+        })),
     fetchPosts: async () => {
         set({ loading: true });
         try {
