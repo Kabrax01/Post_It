@@ -11,9 +11,14 @@ const ConfirmationModal = () => {
     const type = confirmationData.type;
 
     const handleConfirm = () => {
-        if (type === "delete post" && confirmationData) {
-            const { mongoID, id } = confirmationData.data!;
+        if (type === "delete post") {
+            const { mongoID, id } = confirmationData.data;
             deletePost(mongoID, id);
+            closeConfirmationModal();
+        }
+
+        if (type === "cancel") {
+            confirmationData.callback();
             closeConfirmationModal();
         }
     };

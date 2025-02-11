@@ -41,10 +41,20 @@ export interface NotificationProps {
     data: NotificationType;
 }
 
-interface Confirmation {
-    type: "delete post" | "cancel";
-    data?: { mongoID: string; id: number };
+interface DeleteConfirmation {
+    type: "delete post";
+    data: { mongoID: string; id: number };
+    callback?: never;
 }
+
+interface CancelConfirmation {
+    type: "cancel";
+    callback: () => void;
+    data?: never;
+}
+
+type Confirmation = DeleteConfirmation | CancelConfirmation;
+
 export interface InitialState {
     posts: Post[] | [];
     loading: boolean;
