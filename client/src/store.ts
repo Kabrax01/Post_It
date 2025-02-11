@@ -8,8 +8,7 @@ const initialState: InitialState = {
     sending: false,
     toast: { status: false, message: "", error: "" },
     showConfirmation: false,
-    confirmationType: "",
-    confirmationCallback: null,
+    confirmationData: null,
 };
 
 export const usePostStore = create<PostStore>((set, get) => ({
@@ -18,17 +17,15 @@ export const usePostStore = create<PostStore>((set, get) => ({
         set((state) => ({ toast: { ...state.toast, status: false } })),
     showToast: (status, message, error) =>
         set({ toast: { status, message, error } }),
-    openConfirmationModal: (callback, confirmationType) =>
+    openConfirmationModal: (confirmationData) =>
         set(() => ({
             showConfirmation: true,
-            confirmationType: confirmationType,
-            confirmationCallback: callback,
+            confirmationData,
         })),
     closeConfirmationModal: () =>
         set(() => ({
             showConfirmation: false,
-            confirmationType: "",
-            confirmationCallback: null,
+            confirmationType: null,
         })),
     fetchPosts: async () => {
         set({ loading: true });
@@ -74,7 +71,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
     deletePost: async (mongoId, id) => {
         try {
             const res = await fetch(
-                `http://localhost:5000/api/posts/${mongoId!}`,
+                `http://localhost:5000/api/posts/${mongoId}`,
                 {
                     method: "DELETE",
                     body: JSON.stringify({

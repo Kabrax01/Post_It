@@ -4,7 +4,7 @@ export interface Post {
     title: string;
     content: string;
     createdAt: string;
-    _id?: string;
+    _id: string;
 }
 
 export interface PostsListProps {
@@ -40,25 +40,24 @@ type NotificationType = {
 export interface NotificationProps {
     data: NotificationType;
 }
+
+interface Confirmation {
+    type: "delete post" | "cancel";
+    data?: { mongoID: string; id: number };
+}
 export interface InitialState {
     posts: Post[] | [];
     loading: boolean;
     sending: boolean;
     toast: NotificationType;
     showConfirmation: boolean;
-    confirmationType: string;
-    confirmationCallback:
-        | null
-        | ((mongoId: string, id: number) => Promise<void>);
+    confirmationData: Confirmation | null;
 }
 
 export interface PostStore extends InitialState {
     removeToast: () => void;
     showToast: (status: boolean, message: string, error?: string) => void;
-    openConfirmationModal: (
-        callback: Promise<void>,
-        confirmationType: string
-    ) => void;
+    openConfirmationModal: (confirmationType: Confirmation) => void;
     closeConfirmationModal: () => void;
     fetchPosts: () => Promise<void>;
     addPost: (postData: Post) => Promise<string | void>;

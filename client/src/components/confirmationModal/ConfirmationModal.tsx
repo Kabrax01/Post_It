@@ -2,19 +2,32 @@ import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 import styles from "./confirmationModal.module.scss";
 
 const ConfirmationModal = () => {
-    const confirmationType = useStoreSubscribe("confirmationType");
-    const confirmationCallback = useStoreSubscribe("confirmationCallback");
+    const confirmationData = useStoreSubscribe("confirmationData");
+    const closeConfirmationModal = useStoreSubscribe("closeConfirmationModal");
+    const deletePost = useStoreSubscribe("deletePost");
 
-    const handleClick = () => {
-        confirmationCallback!();
+    if (!confirmationData) return;
+
+    const type = confirmationData.type;
+
+    const handleConfirm = () => {
+        if (type === "delete post" && confirmationData) {
+            const { mongoID, id } = confirmationData.data!;
+            deletePost(mongoID, id);
+            closeConfirmationModal();
+        }
+    };
+
+    const handleCancel = () => {
+        closeConfirmationModal();
     };
 
     return (
         <div className={styles.container}>
-            <h3>{confirmationType} 4realz ??</h3>
+            <h3>Are you sure you want to {type} ?</h3>
             <div className={styles.buttons_container}>
-                <button onClick={handleClick}>Confirm</button>
-                <button>Cancel</button>
+                <button onClick={handleConfirm}>Confirm</button>
+                <button onClick={handleCancel}>Cancel</button>
             </div>
         </div>
     );
