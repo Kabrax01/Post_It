@@ -4,9 +4,11 @@ import AddPost from "./components/addPost/AddPost";
 import PostsList from "./components/postsList/PostsList.tsx";
 import { useStoreSubscribe } from "./hooks/useStoreSubscribe.ts";
 import Notification from "./components/notification/Notification.tsx";
+import ConfirmationModal from "./components/confirmationModal/ConfirmationModal.tsx";
 
 function App() {
     const fetchPosts = useStoreSubscribe("fetchPosts");
+    const showConfirmation = useStoreSubscribe("showConfirmation");
 
     useEffect(() => {
         fetchPosts();
@@ -19,6 +21,8 @@ function App() {
             <PostsList />
 
             <Notification />
+
+            {showConfirmation && <ConfirmationModal />}
         </main>
     );
 }

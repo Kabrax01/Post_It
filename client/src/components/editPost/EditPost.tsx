@@ -21,6 +21,11 @@ const EditPost = ({
 
     const sending = useStoreSubscribe("sending");
     const editPost = useStoreSubscribe("editPost");
+    const openConfirmationModal = useStoreSubscribe("openConfirmationModal");
+
+    const handleCancelClick = () => {
+        openConfirmationModal({ type: "cancel", callback: handleEditClick });
+    };
 
     const inputValidation = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -123,7 +128,7 @@ const EditPost = ({
                     <button
                         type="button"
                         disabled={sending}
-                        onClick={handleEditClick}>
+                        onClick={handleCancelClick}>
                         Cancel
                     </button>
                 </div>

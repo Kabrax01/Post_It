@@ -1,14 +1,36 @@
 @use "../../sass/abstracts/" as a;
 
 .container {
-    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    background-color: a.$color-white;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px 10px a.$color-warning-red;
     color: a.$color-black;
+    border-radius: a.$radius-small;
+    max-width: 90vw;
 
     h3 {
+        padding-bottom: 1rem;
+        text-align: center;
     }
 
     .buttons_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+
         button {
+            background-color: a.$color-warning-red;
+            padding: 0.5rem 1.2rem;
+            text-transform: uppercase;
+            border-radius: a.$radius-small;
+            border: none;
+            cursor: pointer;
         }
     }
 }

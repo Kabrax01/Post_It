@@ -8,11 +8,10 @@ const Post = ({ post }: PostProps) => {
     const [editMode, setEditMode] = useState<boolean>(false);
     const { title, author, content, createdAt, _id: mongoID, id } = post;
 
-    const deletePost = useStoreSubscribe("deletePost");
     const openConfirmationModal = useStoreSubscribe("openConfirmationModal");
 
     const handleDeleteClick = () => {
-        openConfirmationModal(deletePost(mongoID!, id), "Delete post");
+        openConfirmationModal({ type: "delete post", data: { mongoID, id } });
     };
 
     const handleEditClick = () => {
