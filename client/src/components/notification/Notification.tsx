@@ -16,6 +16,10 @@ const Notification = () => {
             setProgressValue((prev) => ++prev);
         }, DELAY / 100);
 
+        if (toast.status === false) {
+            clearInterval(progressInterval);
+        }
+
         const delay = setTimeout(() => {
             removeToast();
         }, DELAY);

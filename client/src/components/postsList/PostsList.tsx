@@ -1,6 +1,7 @@
 import styles from "./postList.module.scss";
 import Post from "../post/Post";
 import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
+import FilterPosts from "../filterPosts/FilterPosts";
 
 const PostsList = () => {
     const posts = useStoreSubscribe("posts");
@@ -15,6 +16,7 @@ const PostsList = () => {
 
     return (
         <div className={styles.posts_container}>
+            <FilterPosts />
             <ul className={styles.posts_list}>
                 {!posts.length ? (
                     <p className={styles.placeholder}>No posts to display...</p>

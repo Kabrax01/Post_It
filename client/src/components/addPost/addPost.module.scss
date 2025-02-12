@@ -59,16 +59,6 @@
             flex-direction: column;
             margin: 0 1rem;
             width: 50%;
-
-            input {
-                width: 100%;
-                border-radius: a.$radius-small;
-                border: none;
-                padding: 0.5rem;
-                background-color: a.$background-color-black-light;
-                color: a.$color-white;
-                font-size: 1rem;
-            }
         }
     }
 
@@ -82,13 +72,8 @@
         width: 100%;
 
         textarea {
-            border-radius: a.$radius-small;
             border: none;
-            height: 8rem;
-            padding: 1rem;
-            background-color: a.$background-color-black-light;
-            color: a.$color-white;
-            font-size: 1rem;
+            min-height: 8rem;
         }
 
         .error {

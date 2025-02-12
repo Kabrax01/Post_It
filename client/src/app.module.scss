@@ -17,6 +17,16 @@ a {
     text-decoration: none;
 }
 
+input,
+textarea {
+    border-radius: a.$radius-small;
+    border: none;
+    padding: 0.5rem;
+    background-color: a.$background-color-black-light;
+    color: a.$color-white;
+    font-size: 1rem;
+}
+
 textarea {
     resize: vertical;
     max-height: 50vh;
