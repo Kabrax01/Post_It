@@ -22,6 +22,13 @@ export interface PostData {
     content: FormDataEntryValue | null;
 }
 
+export interface FilterPostProps {
+    posts: Post[];
+    setFilteredPosts: React.Dispatch<React.SetStateAction<null | Post[]>>;
+}
+
+export type FilterType = "author" | "title";
+
 export type ErrorType = {
     [key: string]: string;
 };
