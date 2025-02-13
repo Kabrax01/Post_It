@@ -12,14 +12,16 @@ const FilterPosts = ({ posts, setFilteredPosts }: FilterPostProps) => {
 
         const postsCopy = [...posts];
 
-        const filteredPosts = postsCopy.filter((post) =>
+        const sortedPosts = postsCopy.sort((a, b) =>
+            filterDate === "newest" ? b.id - a.id : a.id - b.id
+        );
+
+        const filteredPosts = sortedPosts.filter((post) =>
             post[filterType].toLowerCase().includes(filterString.toLowerCase())
         );
 
         setFilteredPosts(filteredPosts);
-
-        //   2691978
-    }, [filterString, filterType, posts, setFilteredPosts]);
+    }, [filterString, filterType, filterDate, posts, setFilteredPosts]);
 
     return (
         <div className={styles.container}>
@@ -27,7 +29,7 @@ const FilterPosts = ({ posts, setFilteredPosts }: FilterPostProps) => {
                 type="text"
                 placeholder="Search..."
                 value={filterString}
-                onChange={(e) => setFilterString(() => e.target.value)}
+                onChange={(e) => setFilterString(e.target.value)}
             />
             <div className={styles.select_container}>
                 <label htmlFor="filter_type">
