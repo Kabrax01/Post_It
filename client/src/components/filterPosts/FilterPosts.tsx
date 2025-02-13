@@ -8,8 +8,6 @@ const FilterPosts = ({ posts, setFilteredPosts }: FilterPostProps) => {
     const [filterString, setFilterString] = useState("");
 
     useEffect(() => {
-        if (filterString === "") setFilteredPosts(null);
-
         const postsCopy = [...posts];
 
         const sortedPosts = postsCopy.sort((a, b) =>
