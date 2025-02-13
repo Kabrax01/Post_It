@@ -45,18 +45,18 @@ export const usePostStore = create<PostStore>((set, get) => ({
     addPost: async (postData) => {
         set({ sending: true });
         try {
-            const data = await fetch("http://localhost:5000/api/posts", {
+            const res = await fetch("http://localhost:5000/api/posts", {
                 method: "POST",
                 body: JSON.stringify(postData),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
                 },
             });
-            const res = await data.json();
+            const data = await res.json();
 
-            if (res.success) {
+            if (data.success) {
                 set((state) => ({
-                    posts: [res.data, ...state.posts],
+                    posts: [data.data, ...state.posts],
                 }));
                 get().showToast(true, "Post added !");
 
@@ -100,24 +100,23 @@ export const usePostStore = create<PostStore>((set, get) => ({
     },
     editPost: async (mongoID, title, author, content, id, handleEditClick) => {
         set({ sending: true });
+
+        const postData = { title, author, content };
+
         try {
-            const data = await fetch(
+            const res = await fetch(
                 `http://localhost:5000/api/posts/${mongoID!}`,
                 {
                     method: "PUT",
-                    body: JSON.stringify({
-                        title,
-                        author,
-                        content,
-                    }),
+                    body: JSON.stringify(postData),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
                     },
                 }
             );
-            const res = await data.json();
+            const data = await res.json();
 
-            if (res.success) {
+            if (data.success) {
                 const updatedPosts = get().posts.map((post) => {
                     if (post.id === id) {
                         return { ...post, title, author, content };
