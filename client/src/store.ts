@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { InitialState, PostStore } from "./entities/types";
 import { handleError } from "./utils/handleError";
+import { fetchData } from "./utils/fetchData";
 
 const initialState: InitialState = {
     posts: [],
@@ -45,14 +46,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
     addPost: async (postData) => {
         set({ sending: true });
         try {
-            const res = await fetch("http://localhost:5000/api/posts", {
-                method: "POST",
-                body: JSON.stringify(postData),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            });
-            const data = await res.json();
+            const data = await fetchData("/posts", "POST", postData);
 
             if (data.success) {
                 set((state) => ({
@@ -70,20 +64,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
     },
     deletePost: async (mongoId, id) => {
         try {
-            const res = await fetch(
-                `http://localhost:5000/api/posts/${mongoId}`,
-                {
-                    method: "DELETE",
-                    body: JSON.stringify({
-                        id,
-                    }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8",
-                    },
-                }
-            );
-
-            const data = await res.json();
+            const data = await fetchData(`/posts/${mongoId}`, "DELETE", { id });
 
             if (data.success) {
                 set((state) => ({
@@ -104,17 +85,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
         const postData = { title, author, content };
 
         try {
-            const res = await fetch(
-                `http://localhost:5000/api/posts/${mongoID!}`,
-                {
-                    method: "PUT",
-                    body: JSON.stringify(postData),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8",
-                    },
-                }
-            );
-            const data = await res.json();
+            const data = await fetchData(`/posts/${mongoID}`, "PUT", postData);
 
             if (data.success) {
                 const updatedPosts = get().posts.map((post) => {

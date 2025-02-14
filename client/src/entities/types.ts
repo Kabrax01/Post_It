@@ -60,6 +60,16 @@ interface CancelConfirmation {
     data?: never;
 }
 
+type EditPostData = { title: string; author: string; content: string };
+
+export type FetchRequestBody =
+    | Post
+    | { mongoID: string }
+    | { id: number }
+    | EditPostData;
+
+export type FetchMethodType = "POST" | "PUT" | "DELETE";
+
 type Confirmation = DeleteConfirmation | CancelConfirmation;
 
 export interface InitialState {
