@@ -3,11 +3,11 @@
 .post {
     margin-top: 1rem;
     background-color: transparent;
-    border: 1px solid black;
+    border: 1px solid a.$color-black;
     backdrop-filter: blur(10px);
     padding: 0.5rem 1rem;
     border-radius: a.$radius-small;
-    filter: drop-shadow(rgb(0, 0, 0) 1rem 1rem 15px);
+    filter: drop-shadow((a.$color-black) 1rem 1rem 15px);
 
     p:nth-of-type(2) {
         color: a.$color-black;
