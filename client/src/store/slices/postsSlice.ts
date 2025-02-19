@@ -1,7 +1,19 @@
+import { StateCreator } from "zustand";
 import { fetchData } from "../../utils/fetchData";
 import { handleError } from "../../utils/handleError";
+import {
+    ConfirmationSlice,
+    PostsSlice,
+    ToastSlice,
+} from "../../entities/types";
+import { useBoundStore } from "../store";
 
-export const createPostsSlice = (set, get) => ({
+export const createPostsSlice: StateCreator<
+    PostsSlice & ToastSlice & ConfirmationSlice,
+    [],
+    [],
+    PostsSlice
+> = (set, get) => ({
     posts: [],
     loading: false,
     sending: false,
@@ -26,10 +38,11 @@ export const createPostsSlice = (set, get) => ({
             const data = await fetchData("/posts", "POST", postData);
 
             if (data.success) {
+                const showToast = useBoundStore.getState().showToast;
                 set((state) => ({
                     posts: [data.data, ...state.posts],
                 }));
-                get().showToast(true, "Post added !");
+                showToast(true, "Post added !");
 
                 return "success";
             }

@@ -72,20 +72,23 @@ export type FetchMethodType = "POST" | "PUT" | "DELETE";
 
 type Confirmation = DeleteConfirmation | CancelConfirmation;
 
-export interface InitialState {
+export interface ConfirmationSlice {
+    showConfirmation: boolean;
+    confirmationData: Confirmation | null;
+    openConfirmationModal: (confirmationType: Confirmation) => void;
+    closeConfirmationModal: () => void;
+}
+
+export interface ToastSlice {
+    toast: NotificationType;
+    removeToast: () => void;
+    showToast: (status: boolean, message: string, error?: string) => void;
+}
+
+export interface PostsSlice {
     posts: Post[] | [];
     loading: boolean;
     sending: boolean;
-    toast: NotificationType;
-    showConfirmation: boolean;
-    confirmationData: Confirmation | null;
-}
-
-export interface PostStore extends InitialState {
-    removeToast: () => void;
-    showToast: (status: boolean, message: string, error?: string) => void;
-    openConfirmationModal: (confirmationType: Confirmation) => void;
-    closeConfirmationModal: () => void;
     fetchPosts: () => Promise<void>;
     addPost: (postData: Post) => Promise<string | void>;
     deletePost: (mongoId: string, id: number) => Promise<void>;

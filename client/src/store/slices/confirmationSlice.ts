@@ -1,4 +1,16 @@
-export const createConfirmationSlice = (set, get) => ({
+import { StateCreator } from "zustand";
+import {
+    PostsSlice,
+    ToastSlice,
+    ConfirmationSlice,
+} from "../../entities/types";
+
+export const createConfirmationSlice: StateCreator<
+    PostsSlice & ToastSlice & ConfirmationSlice,
+    [],
+    [],
+    ConfirmationSlice
+> = (set) => ({
     showConfirmation: false,
     confirmationData: null,
     openConfirmationModal: (confirmationData) =>
