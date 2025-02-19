@@ -4,7 +4,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    // font-family: Roboto, sans-serif;
     font-family: Montserrat, Roboto, sans-serif;
 }
 
@@ -32,13 +31,21 @@ textarea {
     max-height: 50vh;
 }
 
-button:active {
-    translate: 0 2px;
-}
+button {
+    transition: outline 0.1s, outline-offset 0.1s;
 
-button:active,
-button:disabled {
-    translate: none;
+    &:active {
+        translate: 0 2px;
+    }
+
+    &:disabled {
+        translate: none;
+    }
+
+    &:hover {
+        outline: 0.2rem solid a.$color-black;
+        outline-offset: 0.15rem;
+    }
 }
 
 .main {

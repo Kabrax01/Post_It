@@ -1,11 +1,11 @@
-import { usePostStore } from "../store";
+import { useBoundStore } from "../store/store";
 
 const getErrorMessage = (error: unknown) => {
     return error instanceof Error ? error.message : "Unknown error";
 };
 
 export const handleError = (error: unknown, message: string) => {
-    const showToast = usePostStore.getState().showToast;
+    const showToast = useBoundStore.getState().showToast;
     const errorMessage = getErrorMessage(error);
 
     console.error(errorMessage);
