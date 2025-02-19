@@ -1,33 +1,10 @@
-import { create } from "zustand";
-import { InitialState, PostStore } from "./entities/types";
-import { handleError } from "./utils/handleError";
-import { fetchData } from "./utils/fetchData";
+import { fetchData } from "../../utils/fetchData";
+import { handleError } from "../../utils/handleError";
 
-const initialState: InitialState = {
+export const createPostsSlice = (set, get) => ({
     posts: [],
     loading: false,
     sending: false,
-    toast: { status: false, message: "", error: "" },
-    showConfirmation: false,
-    confirmationData: null,
-};
-
-export const usePostStore = create<PostStore>((set, get) => ({
-    ...initialState,
-    removeToast: () =>
-        set((state) => ({ toast: { ...state.toast, status: false } })),
-    showToast: (status, message, error) =>
-        set({ toast: { status, message, error } }),
-    openConfirmationModal: (confirmationData) =>
-        set(() => ({
-            showConfirmation: true,
-            confirmationData,
-        })),
-    closeConfirmationModal: () =>
-        set(() => ({
-            showConfirmation: false,
-            confirmationType: null,
-        })),
     fetchPosts: async () => {
         set({ loading: true });
         try {
@@ -111,4 +88,4 @@ export const usePostStore = create<PostStore>((set, get) => ({
             set({ sending: false });
         }
     },
-}));
+});
