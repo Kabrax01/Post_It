@@ -101,3 +101,8 @@ export interface PostsSlice {
         handleEditClick: () => void
     ) => Promise<void>;
 }
+
+export type StoreTypeKeys =
+    | keyof PostsSlice
+    | keyof ToastSlice
+    | keyof ConfirmationSlice;
