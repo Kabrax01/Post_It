@@ -9,12 +9,6 @@
     border-radius: a.$radius-small;
     filter: drop-shadow((a.$color-black) 1rem 1rem 15px);
 
-    p:nth-of-type(2) {
-        color: a.$color-black;
-        margin: 0.3rem 0;
-        white-space: pre-wrap;
-    }
-
     p {
         margin: 1rem 0;
     }
@@ -27,6 +21,19 @@
         span {
             font-weight: bold;
             text-decoration: underline;
+        }
+    }
+
+    .content {
+        p {
+            color: a.$color-black;
+            margin: 0.3rem 0;
+            white-space: pre-wrap;
+        }
+        span {
+            cursor: pointer;
+            color: a.$color-blue;
+            font-weight: bold;
         }
     }
 
