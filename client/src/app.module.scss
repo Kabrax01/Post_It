@@ -51,8 +51,8 @@ button {
 .main {
     position: relative;
     background-image: linear-gradient(
-        rgba(89, 131, 252, 1) 0%,
-        rgba(41, 53, 86, 1) 100%
+        a.$color-blue 0%,
+        a.$color-dark-blue 100%
     );
     display: flex;
     justify-content: flex-start;
