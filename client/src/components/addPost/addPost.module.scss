@@ -1,19 +1,26 @@
 @use "../../sass/abstracts/" as a;
 
 .container {
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    width: 100vw;
     background-image: url("../../../img/note-page.webp");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     filter: a.$main-drop-filter;
-    border-radius: a.$radius-medium;
-    padding: 1rem;
-    width: a.$container-width;
-    max-height: 50rem;
-    transition: max-height 0.5s;
+    height: 10vh;
+    transition: height 0.5s;
 
-    .heading_container {
+    .header_container {
         display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h1 {
+            padding: 1rem 0;
+        }
 
         .arrow {
             height: 2rem;

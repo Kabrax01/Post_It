@@ -19,7 +19,7 @@ const AddPost = () => {
     useEffect(() => {
         const headingSize = headingRef.current?.getBoundingClientRect();
 
-        if (headingSize) setHeadingSize(headingSize.height + 32);
+        if (headingSize) setHeadingSize(headingSize.height);
     }, [isHeadingOpen]);
 
     const inputValidation = (
@@ -75,9 +75,9 @@ const AddPost = () => {
         <div
             className={styles.container}
             style={{
-                maxHeight: isHeadingOpen === true ? "50rem" : headingSize,
+                height: isHeadingOpen === true ? "100vh" : headingSize,
             }}>
-            <div className={styles.heading_container}>
+            <header className={styles.header_container}>
                 <h1 ref={headingRef}>Post It!</h1>
                 <img
                     src="../../../img/arrow_icon.png"
@@ -89,13 +89,13 @@ const AddPost = () => {
                     aria-label="expand and collapse post form"
                     onClick={() => setIsHeadingOpen((prev) => !prev)}
                 />
-            </div>
+            </header>
             <form
                 ref={formRef}
                 className={styles.post_form}
                 onSubmit={handleSubmit}
                 style={{
-                    opacity: isHeadingOpen === true ? "1" : "0",
+                    display: isHeadingOpen === true ? "flex" : "none",
                 }}>
                 <div className={styles.credentials}>
                     <div className={styles.title}>
