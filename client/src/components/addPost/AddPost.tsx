@@ -61,6 +61,7 @@ const AddPost = () => {
                     const status = await addPost(postData as Post);
                     if (status === "success") {
                         formRef.current?.reset();
+                        setIsHeadingOpen(false);
                     }
                 })();
             } else {
