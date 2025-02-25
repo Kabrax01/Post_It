@@ -28,7 +28,6 @@ textarea {
 
 textarea {
     resize: vertical;
-    max-height: 50vh;
 }
 
 button {
@@ -50,10 +49,10 @@ button {
 
 .main {
     position: relative;
-    background-image: linear-gradient(
-        a.$color-blue 0%,
-        a.$color-dark-blue 100%
-    );
+    background: #141e30;
+    background: -webkit-linear-gradient(to bottom, #243b55, #141e30);
+    background: linear-gradient(to bottom, #243b55, #141e30);
+
     display: flex;
     justify-content: flex-start;
     align-items: center;

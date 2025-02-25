@@ -8,9 +8,10 @@
     width: a.$container-width;
     margin-top: 10vh;
     margin-bottom: 1rem;
-    background-image: url("../../../img/note-page.webp");
+    background-image: url("../../../img/background_v2.webp");
     background-position: center;
     background-size: cover;
+    background-repeat: no-repeat;
     filter: a.$main-drop-filter;
 
     li:last-of-type {

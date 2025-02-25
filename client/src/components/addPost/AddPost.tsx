@@ -7,7 +7,7 @@ import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
 
 const AddPost = () => {
     const [validation, setValidation] = useState<ErrorType>({});
-    const [isHeadingOpen, setIsHeadingOpen] = useState<boolean>(true);
+    const [isHeadingOpen, setIsHeadingOpen] = useState<boolean>(false);
     const [headingSize, setHeadingSize] = useState<number>(0);
 
     const addPost = useStoreSubscribe("addPost");
@@ -92,11 +92,10 @@ const AddPost = () => {
             </header>
             <form
                 ref={formRef}
-                className={styles.post_form}
-                onSubmit={handleSubmit}
-                style={{
-                    display: isHeadingOpen === true ? "flex" : "none",
-                }}>
+                className={`${styles.post_form} ${
+                    isHeadingOpen ? styles.open : ""
+                }`}
+                onSubmit={handleSubmit}>
                 <div className={styles.credentials}>
                     <div className={styles.title}>
                         <label htmlFor="title">Title</label>
@@ -142,8 +141,8 @@ const AddPost = () => {
                         id="content"
                         name="content"
                     />
+                    <button disabled={sending}>Post it !</button>
                 </div>
-                <button disabled={sending}>Post it!</button>
             </form>
         </div>
     );
