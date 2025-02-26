@@ -12,8 +12,10 @@
     border-radius: a.$radius-small;
     right: -60vw;
     transition: all 0.5s;
+    opacity: 0;
 
     &.show {
+        opacity: 1;
         right: 50vw;
         transform: translateX(50%);
     }
