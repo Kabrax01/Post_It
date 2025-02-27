@@ -12,9 +12,7 @@ describe("addPost", () => {
     };
 
     it("should render heading", () => {
-        // const { heading } = renderComponent();
-        render(<AddPost />);
-        const heading = screen.getByRole("heading");
+        const { heading } = renderComponent();
 
         expect(heading).toBeInTheDocument();
     });
