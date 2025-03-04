@@ -80,22 +80,23 @@ const AddPost = () => {
             }}>
             <header className={styles.header_container}>
                 <h1 ref={headingRef}>Post It!</h1>
-                <img
-                    src="../../../img/arrow_icon.png"
-                    className={`${styles.arrow} ${
-                        isHeadingOpen ? styles.open : ""
-                    }`}
-                    alt="arrow"
-                    role="button"
-                    aria-label="expand and collapse post form"
+                <button
+                    data-testid="open form button"
                     onClick={() => setIsHeadingOpen((prev) => !prev)}
-                />
+                    aria-label="expand and collapse post form">
+                    <img
+                        src="../../../img/arrow_icon.png"
+                        className={` ${isHeadingOpen ? styles.open : ""}`}
+                        alt="arrow"
+                        aria-label="expand and collapse post form"
+                    />
+                </button>
             </header>
             <form
+                data-testid="form"
+                style={{ opacity: isHeadingOpen ? "1" : "0" }}
                 ref={formRef}
-                className={`${styles.post_form} ${
-                    isHeadingOpen ? styles.open : ""
-                }`}
+                className={styles.post_form}
                 onSubmit={handleSubmit}>
                 <div className={styles.credentials}>
                     <div className={styles.title}>
