@@ -83,6 +83,8 @@ const EditPost = ({
                             type="text"
                             id="title"
                             name="title"
+                            placeholder="Title"
+                            maxLength={50}
                         />
                     </div>
                     <div className={styles.author}>
@@ -102,6 +104,8 @@ const EditPost = ({
                             type="text"
                             id="author"
                             name="author"
+                            placeholder="Author"
+                            maxLength={20}
                         />
                     </div>
                 </div>
@@ -121,6 +125,7 @@ const EditPost = ({
                         value={content}
                         id="content"
                         name="content"
+                        placeholder="Type your post content"
                     />
                 </div>
                 <div className={styles.buttons_container}>
