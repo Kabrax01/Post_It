@@ -40,4 +40,25 @@ describe("addPost", () => {
 
         expect(form).not.toBeVisible();
     });
+
+    it.each([
+        {
+            name: "title",
+        },
+        {
+            name: "author",
+        },
+        {
+            name: "content",
+        },
+    ])("should render $name input, and label", async ({ name }) => {
+        const { button, user } = renderComponent();
+
+        await user.click(button);
+
+        expect(
+            screen.getByPlaceholderText(new RegExp(name, "i"))
+        ).toBeInTheDocument();
+        expect(screen.getByText(new RegExp(name, "i"))).toBeInTheDocument();
+    });
 });
