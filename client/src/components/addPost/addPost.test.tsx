@@ -61,4 +61,66 @@ describe("addPost", () => {
         ).toBeInTheDocument();
         expect(screen.getByText(new RegExp(name, "i"))).toBeInTheDocument();
     });
+
+    it.each([
+        {
+            error: "required",
+            case: "is empty",
+            inputValue: "empty",
+        },
+        {
+            error: "too short",
+            case: "have less than 3 characters",
+            inputValue: "ab",
+        },
+    ])(
+        "should show error message when title input $case",
+        async ({ error, inputValue }) => {
+            const { button, user } = renderComponent();
+
+            await user.click(button);
+            const input = screen.getByLabelText(/title/i);
+
+            if (inputValue === "empty") {
+                await user.type(input, inputValue);
+                await user.clear(input);
+            } else {
+                await user.type(input, inputValue);
+            }
+
+            expect(
+                screen.getByText(new RegExp(error, "i"))
+            ).toBeInTheDocument();
+        }
+    );
+
+    it.only.each([
+        { name: "title", label: /title/i },
+        { name: "author", label: /author/i },
+        { name: "content", label: /content/i },
+    ])(
+        "should show error message when $name input is empty or too short",
+        async ({ label }) => {
+            const { button, user } = renderComponent();
+
+            await user.click(button);
+            const input = screen.getByLabelText(label);
+
+            for (const { error, inputValue } of [
+                { error: "required", inputValue: "empty" },
+                { error: "too short", inputValue: "ab" },
+            ]) {
+                if (inputValue === "empty") {
+                    await user.type(input, inputValue);
+                    await user.clear(input);
+                } else {
+                    await user.type(input, inputValue);
+                }
+
+                expect(
+                    screen.getByText(new RegExp(error, "i"))
+                ).toBeInTheDocument();
+            }
+        }
+    );
 });
