@@ -112,6 +112,8 @@ const AddPost = () => {
                             type="text"
                             id="title"
                             name="title"
+                            placeholder="Title"
+                            maxLength={50}
                         />
                     </div>
                     <div className={styles.author}>
@@ -127,6 +129,8 @@ const AddPost = () => {
                             type="text"
                             id="author"
                             name="author"
+                            placeholder="Author"
+                            maxLength={20}
                         />
                     </div>
                 </div>
@@ -142,6 +146,7 @@ const AddPost = () => {
                         onChange={inputValidation}
                         id="content"
                         name="content"
+                        placeholder="Type your post content"
                     />
                     <button disabled={sending}>Post it !</button>
                 </div>
