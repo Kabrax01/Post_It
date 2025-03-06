@@ -4,23 +4,18 @@ import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import AddPost from "./AddPost";
-// import PostsList from "../postsList/PostsList";
-// import { useBoundStore } from "../../store/store";
-// import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
-
-// vi.mock("../store/store", () => ({
-//     useBoundStore: vi.fn(),
-// }));
 
 const { addPostMock } = vi.hoisted(() => ({
     addPostMock: vi.fn(),
 }));
 
 vi.mock("../../hooks/useStoreSubscribe", () => ({
-    useStoreSubscribe: () => ({
-        addPost: addPostMock,
-        sending: vi.fn(),
-    }),
+    useStoreSubscribe: (key: string) => {
+        return {
+            addPost: addPostMock,
+            sending: vi.fn(),
+        }[key];
+    },
 }));
 
 describe("addPost", () => {
@@ -165,12 +160,6 @@ describe("addPost", () => {
             contentInput: "Dolor",
         };
 
-        // const expected = input;
-
-        // const addPostMock = vi.fn();
-
-        // const spy = vi.spyOn(useStoreSubscribe, "useStoreSubscribe");
-
         const { openFormButton, user } = renderComponent();
 
         await user.click(openFormButton);
@@ -189,13 +178,6 @@ describe("addPost", () => {
 
         await user.click(submitButtonAsync);
 
-        // console.log(spy);
-
-        // expect(spy).toBeCalledWith("addPost");
-        // expect(spy).toBeCalledWith("sending");
-
         expect(addPostMock).toHaveBeenCalled();
-
-        // expect;
     });
 });
