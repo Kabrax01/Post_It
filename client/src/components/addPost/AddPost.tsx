@@ -94,7 +94,7 @@ const AddPost = () => {
             </header>
             <form
                 data-testid="form"
-                style={{ opacity: isHeadingOpen ? "1" : "0" }}
+                style={{ display: isHeadingOpen ? "flex" : "none" }}
                 ref={formRef}
                 className={styles.post_form}
                 onSubmit={handleSubmit}>

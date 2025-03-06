@@ -1,8 +1,27 @@
 import { it, expect, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import AddPost from "./AddPost";
+// import PostsList from "../postsList/PostsList";
+// import { useBoundStore } from "../../store/store";
+// import { useStoreSubscribe } from "../../hooks/useStoreSubscribe";
+
+// vi.mock("../store/store", () => ({
+//     useBoundStore: vi.fn(),
+// }));
+
+const { addPostMock } = vi.hoisted(() => ({
+    addPostMock: vi.fn(),
+}));
+
+vi.mock("../../hooks/useStoreSubscribe", () => ({
+    useStoreSubscribe: () => ({
+        addPost: addPostMock,
+        sending: vi.fn(),
+    }),
+}));
 
 describe("addPost", () => {
     const renderComponent = () => {
@@ -12,7 +31,7 @@ describe("addPost", () => {
             heading: screen.getByRole("heading"),
             openFormButton: screen.getByTestId("open form button"),
             form: screen.queryByTestId("form"),
-            submitButton: screen.getByRole("button", {
+            submitButton: screen.queryByRole("button", {
                 name: /post it !/i,
             }),
             user: userEvent.setup(),
@@ -128,11 +147,55 @@ describe("addPost", () => {
     );
 
     it("should show error message on all inputs when user clicks submit button and inputs are empty", async () => {
-        const { openFormButton, user, submitButton } = renderComponent();
+        const { openFormButton, user } = renderComponent();
 
         await user.click(openFormButton);
-        await user.click(submitButton);
+        const submitButtonAsync = await screen.findByRole("button", {
+            name: /post it !/i,
+        });
+        await user.click(submitButtonAsync);
 
         expect(screen.getAllByText(/required/i)).toHaveLength(3);
+    });
+
+    it.only("should add new post when all inputs have correct value", async () => {
+        const input = {
+            titleInput: "Lorem",
+            authorInput: "Ipsum",
+            contentInput: "Dolor",
+        };
+
+        // const expected = input;
+
+        // const addPostMock = vi.fn();
+
+        // const spy = vi.spyOn(useStoreSubscribe, "useStoreSubscribe");
+
+        const { openFormButton, user } = renderComponent();
+
+        await user.click(openFormButton);
+
+        const titleInput = screen.getByLabelText(/title/i);
+        const authorInput = screen.getByLabelText(/author/i);
+        const contentInput = screen.getByLabelText(/content/i);
+
+        await user.type(titleInput, input.titleInput);
+        await user.type(authorInput, input.authorInput);
+        await user.type(contentInput, input.contentInput);
+
+        const submitButtonAsync = await screen.findByRole("button", {
+            name: /post it !/i,
+        });
+
+        await user.click(submitButtonAsync);
+
+        // console.log(spy);
+
+        // expect(spy).toBeCalledWith("addPost");
+        // expect(spy).toBeCalledWith("sending");
+
+        expect(addPostMock).toHaveBeenCalled();
+
+        // expect;
     });
 });
