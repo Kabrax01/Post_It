@@ -33,6 +33,29 @@ describe("addPost", () => {
         };
     };
 
+    const fillAddPostForm = async () => {
+        const input = {
+            titleInput: "Lorem",
+            authorInput: "Ipsum",
+            contentInput: "Dolor",
+        };
+        const user = userEvent.setup();
+
+        const titleInput = screen.getByLabelText(/title/i);
+        const authorInput = screen.getByLabelText(/author/i);
+        const contentInput = screen.getByLabelText(/content/i);
+
+        await user.type(titleInput, input.titleInput);
+        await user.type(authorInput, input.authorInput);
+        await user.type(contentInput, input.contentInput);
+
+        const submitButtonAsync = await screen.findByRole("button", {
+            name: /post it !/i,
+        });
+
+        await user.click(submitButtonAsync);
+    };
+
     it("should render heading and button", () => {
         const { heading, openFormButton } = renderComponent();
 
@@ -153,31 +176,13 @@ describe("addPost", () => {
         expect(screen.getAllByText(/required/i)).toHaveLength(3);
     });
 
-    it.only("should add new post when all inputs have correct value", async () => {
-        const input = {
-            titleInput: "Lorem",
-            authorInput: "Ipsum",
-            contentInput: "Dolor",
-        };
-
+    it("should add new post when all inputs have correct value", async () => {
         const { openFormButton, user } = renderComponent();
 
         await user.click(openFormButton);
 
-        const titleInput = screen.getByLabelText(/title/i);
-        const authorInput = screen.getByLabelText(/author/i);
-        const contentInput = screen.getByLabelText(/content/i);
+        await fillAddPostForm();
 
-        await user.type(titleInput, input.titleInput);
-        await user.type(authorInput, input.authorInput);
-        await user.type(contentInput, input.contentInput);
-
-        const submitButtonAsync = await screen.findByRole("button", {
-            name: /post it !/i,
-        });
-
-        await user.click(submitButtonAsync);
-
-        expect(addPostMock).toHaveBeenCalled();
+        expect(addPostMock).toHaveBeenCalledTimes(1);
     });
 });
