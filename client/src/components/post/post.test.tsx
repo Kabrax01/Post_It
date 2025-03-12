@@ -1,9 +1,10 @@
 import { it, expect, describe } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import Post from "./Post";
+import { Post as PostType } from "../../entities/types";
 
 const { openConfirmationModalMock } = vi.hoisted(() => ({
     openConfirmationModalMock: vi.fn(),
@@ -18,7 +19,7 @@ vi.mock("../../hooks/useStoreSubscribe", () => ({
 }));
 
 describe("Post", () => {
-    const post = {
+    const post: PostType = {
         title: "Lorem",
         author: "Ipsum",
         content: "Dolor sit amet",
@@ -27,7 +28,7 @@ describe("Post", () => {
         id: 12345,
     };
 
-    const renderComponent = () => {
+    const renderComponent = (post: PostType) => {
         render(<Post post={post} />);
 
         return {
@@ -38,7 +39,7 @@ describe("Post", () => {
     };
 
     it("should render correct post data and buttons", () => {
-        const { deleteButton, editButton } = renderComponent();
+        const { deleteButton, editButton } = renderComponent(post);
 
         const title = screen.getByText(/lorem/i);
         const author = screen.getByText(/ipsum/i);
@@ -54,7 +55,7 @@ describe("Post", () => {
     });
 
     it("should show confirmation modal when user click delete button", async () => {
-        const { user, deleteButton } = renderComponent();
+        const { user, deleteButton } = renderComponent(post);
 
         await user.click(deleteButton);
 
@@ -68,11 +69,31 @@ describe("Post", () => {
         });
     });
 
-    it.only("should show edit post form when user click edit button", async () => {
-        const { user, editButton } = renderComponent();
+    it("should show edit post form when user click edit button", async () => {
+        const { user, editButton } = renderComponent(post);
 
         await user.click(editButton);
 
         expect(screen.getByRole("form")).toBeInTheDocument();
+    });
+
+    it("should truncate post content when it is longer than 200 chars", () => {
+        const postWithLongString = { ...post, content: "a".repeat(220) };
+
+        renderComponent(postWithLongString);
+
+        const content = screen.getByText(/aaa/i);
+
+        expect(content.textContent).toHaveLength(200 + 6);
+    });
+
+    it("should render show more button when ost content is longer than 200 chars", () => {
+        const postWithLongString = { ...post, content: "a".repeat(220) };
+
+        renderComponent(postWithLongString);
+
+        expect(
+            screen.getByRole("button", { name: /show more/i })
+        ).toBeInTheDocument();
     });
 });
