@@ -45,7 +45,9 @@ const Post = ({ post }: PostProps) => {
                 <div className={styles.content}>
                     <p>{textForDisplay}</p>
                     {exceedsMaxChars && (
-                        <span onClick={() => setShowMore((prev) => !prev)}>
+                        <span
+                            onClick={() => setShowMore((prev) => !prev)}
+                            role="button">
                             {showMore ? "Show less" : "Show more"}
                         </span>
                     )}
