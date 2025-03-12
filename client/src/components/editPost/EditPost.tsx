@@ -64,7 +64,10 @@ const EditPost = ({
 
     return (
         <div className={styles.container}>
-            <form className={styles.post_form} onSubmit={handleSubmit}>
+            <form
+                className={styles.post_form}
+                onSubmit={handleSubmit}
+                aria-label="edit post form">
                 <div className={styles.credentials}>
                     <div className={styles.title}>
                         <label htmlFor="title">Title</label>
