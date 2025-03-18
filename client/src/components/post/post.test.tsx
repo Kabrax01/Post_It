@@ -87,13 +87,26 @@ describe("Post", () => {
         expect(content.textContent).toHaveLength(200 + 6);
     });
 
-    it("should render show more button when ost content is longer than 200 chars", () => {
+    it("should render show more button when post content is longer than 200 chars", () => {
         const postWithLongString = { ...post, content: "a".repeat(220) };
 
         renderComponent(postWithLongString);
 
         expect(
             screen.getByRole("button", { name: /show more/i })
+        ).toBeInTheDocument();
+    });
+
+    it("should render show less button when user expands post content", async () => {
+        const postWithLongString = { ...post, content: "a".repeat(220) };
+
+        const { user } = renderComponent(postWithLongString);
+
+        const expandButton = screen.getByRole("button", { name: /show more/i });
+        await user.click(expandButton);
+
+        expect(
+            screen.getByRole("button", { name: /show less/i })
         ).toBeInTheDocument();
     });
 });
