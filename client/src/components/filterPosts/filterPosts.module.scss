@@ -8,8 +8,32 @@
     align-items: center;
     gap: 1rem;
 
+    @media (width <= 660px) {
+        padding: 0.5rem 0.5rem;
+    }
+
+    @media (width <= 600px) {
+        padding: 0.1rem 1rem;
+        justify-content: center;
+    }
+
+    @media (width <= 460px) {
+        flex-direction: column;
+        gap: 0.3rem;
+        padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    }
+
     input {
         width: 30%;
+
+        @media (width <= 600px) {
+            flex-grow: 1;
+        }
+
+        @media (width <= 460px) {
+            width: 100%;
+            margin-top: 0.3rem;
+        }
     }
 
     input::placeholder {
@@ -17,6 +41,42 @@
     }
 
     .select_container {
+        @media (width <= 660px) {
+            padding: 0.5rem 0.5rem;
+        }
+
+        @media (width <= 600px) {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        @media (width <= 460px) {
+            flex-direction: row;
+            padding: 0;
+            padding-bottom: 0.3rem;
+        }
+
+        @media (width <= 400px) {
+            flex-direction: column;
+            padding: 0;
+            padding-bottom: 0.3rem;
+        }
+
+        label:nth-of-type(2) > select {
+            @media (width <= 600px) {
+                margin-left: 2.9rem;
+            }
+
+            @media (width <= 460px) {
+                margin-left: 0.5rem;
+            }
+
+            @media (width <= 400px) {
+                margin-left: 2.9rem;
+            }
+        }
+
         select {
             width: 7rem;
             margin-left: 0.5rem;
@@ -29,6 +89,14 @@
 
         label:nth-of-type(2) {
             margin-left: 2rem;
+
+            @media (width <= 660px) {
+                margin-left: 0.5rem;
+            }
+
+            @media (width <= 600px) {
+                margin-left: 0;
+            }
         }
     }
 }

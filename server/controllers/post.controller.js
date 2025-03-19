@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 
 export const getPosts = async (req, res) => {
     try {
-        const products = await Post.find({});
-        res.status(200).json({ success: true, data: products });
+        const posts = await Post.find({});
+        res.status(200).json({ success: true, data: posts });
     } catch (error) {
         console.error(`Error in fetch request. Message: ${error.message}`);
         res.status(500).json({ success: false, message: "Server Error" });
