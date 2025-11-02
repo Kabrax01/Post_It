@@ -12,7 +12,7 @@
 
 ## General Information
 
-Post It is a modern note-taking application that allows users to create, edit, and delete posts. Each post can include a title, author, content preview, and a timestamp. Users can also search for posts by author or sort them by date, making it easy to manage and explore notes efficiently.
+Post It is a modern blog application that allows users to create, edit, and delete posts. Each post can include a title, author, content preview, and a timestamp. Users can also search for posts by author or sort them by date, making it easy to manage and explore notes efficiently.
 
 The app provides a clean and responsive interface, displaying posts in individual cards with options to expand for full content, as well as edit or delete them. Features like live search and sorting enhance user experience, while interactive animations make the interface smooth and engaging.
 
