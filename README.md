@@ -50,6 +50,8 @@ The app provides a clean and responsive interface, displaying posts in individua
 -   [MongoDB](https://firebase.google.com/)
 -   [Docker](https://www.docker.com/)
 -   [Express](https://expressjs.com/)
+-   [Vitest](https://vitest.dev/)
+-   [React Testing Library](https://testing-library.com/)
 -   [Framer Motion](https://www.framer.com/motion/)
 
 ## Author
