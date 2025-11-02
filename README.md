@@ -34,9 +34,9 @@ The app provides a clean and responsive interface, displaying posts in individua
     `PORT = 5000`
     `LIVE_MONGODB_URL = "your mongoDB cluster adress"`
 
-2. Navigate to ./server and run command npm run
+2. Navigate to ./server and run command 'npm run dev'
 
-3. Navigate to ./client and run command npm run
+3. Navigate to ./client and run command 'npm run dev'
 
 4. Enjoy
 
